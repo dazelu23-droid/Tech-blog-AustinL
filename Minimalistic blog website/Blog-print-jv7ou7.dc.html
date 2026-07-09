@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Stack Journal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { opacity: 0.8; }
+  input::placeholder, textarea::placeholder { color: var(--text-dim); opacity: 0.65; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  input:focus, textarea:focus { border-color: var(--accent) !important; }
+  ::selection { background: var(--accent-weak); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--bg:#071428;--surface:#0c1d35;--surface-2:#123052;--border:#24466f;--text:#edf6ff;--text-dim:#9fb7d7;--accent:#69a7ff;--accent-weak:color-mix(in srgb,#69a7ff 16%,transparent);--head-font:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:15px;line-height:1.55;transition:background .2s,color .2s">
+
+  <sc-if value="{{ authed }}" hint-placeholder-val="{{ false }}">
+    <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:13px 22px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:26px">
+        <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;cursor:pointer;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</span>
+        <nav style="display:flex;gap:2px">
+          <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">home</span>
+          <span onClick="{{ goCompose }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">write</span>
+          <span onClick="{{ goPortfolio }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">portfolio</span>
+          <span onClick="{{ goFriends }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">friends</span>
+          <span onClick="{{ goProfile }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">profile</span>
+          <span onClick="{{ goSettings }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">settings</span>
+        </nav>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onClick="{{ toggleTheme }}" title="Toggle theme" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:14px">{{ themeIcon }}</button>
+        <img onClick="{{ goProfile }}" title="Profile" src="{{ userAvatarUrl }}" alt="{{ user.name }}" style="width:34px;height:34px;display:block;object-fit:cover;border:2px solid var(--accent-weak);border-radius:50%;cursor:pointer" />
+        <button onClick="{{ doLogout }}" style="background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:12px" style-hover="color:var(--text)">sign out</button>
+      </div>
+    </header>
+  </sc-if>
+
+  <!-- ===================== LOGIN ===================== -->
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px">
+      <div style="width:100%;max-width:360px;animation:fadeUp .3s ease both">
+        <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:34px;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</div>
+        <h1 style="font-family:var(--head-font);font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-0.02em">Sign in</h1>
+        <p style="color:var(--text-dim);margin:0 0 26px;font-size:14px">Welcome back. Pick up where you left off.</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Email</span><input value="{{ loginForm.email }}" onChange="{{ onLoginEmail }}" placeholder="you@domain.com" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Password</span><input type="password" value="{{ loginForm.password }}" onChange="{{ onLoginPassword }}" placeholder="••••••••" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <button onClick="{{ doLogin }}" style="margin-top:6px;padding:12px 16px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Sign in →</button>
+        </div>
+        <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim)">New here? <span onClick="{{ goRegister }}" style="color:var(--accent);cursor:pointer;font-weight:500">Create an account</span></div>
+        <div style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);opacity:.7">// demo — any credentials work</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== REGISTER ===================== -->
+  <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px">
+      <div style="width:100%;max-width:360px;animation:fadeUp .3s ease both">
+        <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:30px;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</div>
+        <h1 style="font-family:var(--head-font);font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-0.02em">Create account</h1>
+        <p style="color:var(--text-dim);margin:0 0 24px;font-size:14px">Start writing in under a minute.</p>
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Name</span><input value="{{ regForm.name }}" onChange="{{ onRegName }}" placeholder="Ada Lovelace" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Handle</span><input value="{{ regForm.handle }}" onChange="{{ onRegHandle }}" placeholder="ada" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Email</span><input value="{{ regForm.email }}" onChange="{{ onRegEmail }}" placeholder="you@domain.com" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Password</span><input type="password" value="{{ regForm.password }}" onChange="{{ onRegPassword }}" placeholder="••••••••" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <button onClick="{{ doRegister }}" style="margin-top:6px;padding:12px 16px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Create account →</button>
+        </div>
+        <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim)">Already have one? <span onClick="{{ goLogin }}" style="color:var(--accent);cursor:pointer;font-weight:500">Sign in</span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== HOME ===================== -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:720px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px">
+        <h1 style="font-family:var(--head-font);font-size:30px;font-weight:600;margin:0;letter-spacing:-0.025em">Build Stack Journal</h1>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ resultCount }} posts</span>
+      </div>
+      <div style="position:relative;margin-bottom:16px">
+        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:14px">⌕</span>
+        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="search mechanical, electrical, nuclear, civil, software…" style="width:100%;padding:11px 13px 11px 34px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;outline:none" />
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px">
+        <sc-for list="{{ engineeringTypes }}" as="type" hint-placeholder-count="6">
+          <span onClick="{{ type.select }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:5px 11px;border-radius:100px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--accent)">{{ type.name }}</span>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:30px">
+        <sc-for list="{{ tagChips }}" as="chip" hint-placeholder-count="5">
+          <span onClick="{{ chip.select }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;padding:5px 11px;border-radius:100px;cursor:pointer;border:1px solid var(--border);background:var(--chipBg);color:var(--chipColor)">#{{ chip.name }}</span>
+        </sc-for>
+      </div>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 30px">
+        <sc-for list="{{ ads }}" as="ad" hint-placeholder-count="3">
+          <div style="padding:14px;background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--border);border-radius:8px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:7px">sponsored</div>
+            <div style="font-size:14px;font-weight:600;line-height:1.35;margin-bottom:4px">{{ ad.title }}</div>
+            <p style="margin:0;color:var(--text-dim);font-size:12px;line-height:1.45">{{ ad.copy }}</p>
+          </div>
+        </sc-for>
+      </section>
+
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ filteredPosts }}" as="item" hint-placeholder-count="4">
+            <article style="padding:24px 0;border-top:1px solid var(--border)">
+<img onClick="{{ item.open }}" src="{{ item.coverImage }}" alt="{{ item.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:block" />
+              <h2 onClick="{{ item.open }}" style="font-family:var(--head-font);font-size:21px;font-weight:600;margin:0 0 8px;letter-spacing:-0.02em;cursor:pointer;line-height:1.3" style-hover="color:var(--accent)">{{ item.title }}</h2>
+              <p style="color:var(--text-dim);margin:0 0 14px;font-size:15px;line-height:1.6">{{ item.excerpt }}</p>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">
+                <img src="{{ item.avatarUrl }}" alt="{{ item.author }}" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
+                <span style="color:var(--text)">{{ item.author }}</span>
+                <span>·</span><span>{{ item.date }}</span>
+                <span>·</span><span>{{ item.readTime }}</span>
+                <span style="flex:1"></span>
+                <span onClick="{{ item.like }}" style="cursor:pointer;color:var(--likeColor)">{{ item.likeGlyph }} {{ item.likes }}</span>
+                <span>{{ item.commentGlyph }} {{ item.commentCount }}</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+                <sc-for list="{{ item.tags }}" as="tag" hint-placeholder-count="2">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 8px;border-radius:100px;background:var(--surface-2);color:var(--text-dim)">#{{ tag }}</span>
+                </sc-for>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:60px 0;text-align:center;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:13px">// no posts match “{{ query }}”</div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <!-- ===================== POST DETAIL ===================== -->
+  <sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:680px;margin:0 auto;padding:32px 24px 80px;animation:fadeUp .3s ease both">
+      <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);cursor:pointer" style-hover="color:var(--text)">← all posts</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:28px 0 14px">
+        <sc-for list="{{ selectedPost.tags }}" as="tag" hint-placeholder-count="2">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 8px;border-radius:100px;background:var(--accent-weak);color:var(--accent)">#{{ tag }}</span>
+        </sc-for>
+      </div>
+      <h1 style="font-family:var(--head-font);font-size:34px;font-weight:600;margin:0 0 16px;letter-spacing:-0.03em;line-height:1.15">{{ selectedPost.title }}</h1>
+      <img src="{{ selectedPost.coverImage }}" alt="{{ selectedPost.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin:0 0 22px;border:1px solid var(--border);display:block" />
+      <div style="display:flex;align-items:center;gap:11px;padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--border)">
+        <img src="{{ selectedPost.avatarUrl }}" alt="{{ selectedPost.author }}" style="width:40px;height:40px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
+        <div style="display:flex;flex-direction:column;gap:1px">
+          <span style="font-size:14px;font-weight:500">{{ selectedPost.author }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ selectedPost.date }} · {{ selectedPost.readTime }}</span>
+        </div>
+      </div>
+      <div style="font-size:17px;line-height:1.75;color:var(--text)">
+        <sc-for list="{{ selectedPost.body }}" as="para" hint-placeholder-count="3">
+          <p style="margin:0 0 20px">{{ para }}</p>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin:32px 0;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+        <button onClick="{{ likeSelected }}" style="display:flex;align-items:center;gap:8px;background:var(--selLikeBg);border:1px solid var(--selLikeBorder);color:var(--selLikeColor);padding:8px 15px;border-radius:100px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px">{{ selectedPost.likeGlyph }} {{ selectedPost.likes }}</button>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim)">{{ selectedPost.commentGlyph }} {{ selectedPost.commentCount }} comments</span>
+      </div>
+
+      <section>
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 18px">Comments</h3>
+        <div style="display:flex;gap:10px;margin-bottom:26px">
+          <textarea value="{{ commentDraft }}" onChange="{{ onCommentDraft }}" placeholder="add a comment…" rows="2" style="flex:1;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;outline:none;resize:vertical"></textarea>
+          <button onClick="{{ addComment }}" style="align-self:flex-start;padding:11px 15px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;text-transform:uppercase;cursor:pointer">Post</button>
+        </div>
+        <sc-if value="{{ selectedPost.hasComments }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ selectedPost.comments }}" as="c" hint-placeholder-count="2">
+              <div style="display:flex;gap:11px">
+                <div style="width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--surface-2);color:var(--text-dim);border-radius:50%;font-family:'IBM Plex Mono',monospace;font-size:11px">{{ c.initials }}</div>
+                <div style="flex:1">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);margin-bottom:3px"><span style="color:var(--text)">{{ c.author }}</span> · {{ c.time }}</div>
+                  <p style="margin:0;font-size:14px;line-height:1.6">{{ c.text }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ selectedPost.noComments }}" hint-placeholder-val="{{ false }}">
+          <div style="color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:13px">// be the first to comment</div>
+        </sc-if>
+      </section>
+    </main>
+  </sc-if>
+
+  <!-- ===================== PROFILE ===================== -->
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:720px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <div style="display:flex;align-items:center;gap:18px;margin-bottom:12px">
+        <img src="{{ userAvatarUrl }}" alt="{{ user.name }}" style="width:72px;height:72px;object-fit:cover;border-radius:50%;border:2px solid var(--accent-weak)" />
+        <div style="flex:1">
+          <h1 style="font-family:var(--head-font);font-size:26px;font-weight:600;margin:0;letter-spacing:-0.02em">{{ user.name }}</h1>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim)">@{{ user.handle }}</span>
+        </div>
+        <button onClick="{{ goSettings }}" style="padding:9px 15px;background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer" style-hover="border-color:var(--accent);color:var(--accent)">edit profile</button>
+      </div>
+      <p style="color:var(--text);margin:0 0 22px;font-size:15px;line-height:1.6;max-width:520px">{{ user.bio }}</p>
+      <div style="display:flex;gap:26px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:34px">
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500">{{ authoredCount }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">posts</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500">{{ likesReceived }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">likes</span></div>
+      </div>
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 4px">Published</h3>
+      <sc-if value="{{ hasAuthored }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ authoredPosts }}" as="item" hint-placeholder-count="2">
+            <article style="padding:20px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;align-items:center">
+              <img onClick="{{ item.open }}" src="{{ item.coverImage }}" alt="{{ item.title }}" style="width:112px;aspect-ratio:16/10;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer;flex-shrink:0" />
+              <div style="flex:1">
+                <h2 onClick="{{ item.open }}" style="font-family:var(--head-font);font-size:18px;font-weight:600;margin:0 0 5px;letter-spacing:-0.01em;cursor:pointer" style-hover="color:var(--accent)">{{ item.title }}</h2>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ item.date }} · {{ item.likeGlyph }} {{ item.likes }} · {{ item.commentGlyph }} {{ item.commentCount }}</span>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noAuthored }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:36px 0;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:13px">// no posts yet — <span onClick="{{ goCompose }}" style="color:var(--accent);cursor:pointer">write your first</span></div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+
+  <!-- ===================== PORTFOLIO ===================== -->
+  <sc-if value="{{ isPortfolio }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:860px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px">
+        <h1 style="font-family:var(--head-font);font-size:30px;font-weight:600;margin:0;letter-spacing:-0.025em">Engineering Portfolio</h1>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ portfolioCount }} projects</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <sc-for list="{{ portfolioItems }}" as="project" hint-placeholder-count="3">
+          <article style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+            <img src="{{ project.image }}" alt="{{ project.title }}" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block" />
+            <div style="padding:16px">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:7px">{{ project.stack }}</div>
+              <h2 style="font-family:var(--head-font);font-size:18px;font-weight:600;margin:0 0 7px;letter-spacing:-0.01em">{{ project.title }}</h2>
+              <p style="margin:0 0 12px;color:var(--text-dim);font-size:14px;line-height:1.55">{{ project.summary }}</p>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text)">{{ project.metric }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <!-- ===================== FRIENDS ===================== -->
+  <sc-if value="{{ isFriends }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:760px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px">
+        <h1 style="font-family:var(--head-font);font-size:30px;font-weight:600;margin:0;letter-spacing:-0.025em">Friends</h1>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ friendCount }} people</span>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid var(--border)">
+        <sc-for list="{{ friends }}" as="friend" hint-placeholder-count="4">
+          <article style="display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid var(--border)">
+            <img src="{{ friend.avatar }}" alt="{{ friend.name }}" style="width:54px;height:54px;object-fit:cover;border-radius:50%;border:1px solid var(--border);flex-shrink:0" />
+            <div style="flex:1;min-width:0">
+              <h2 style="font-family:var(--head-font);font-size:17px;font-weight:600;margin:0 0 3px">{{ friend.name }}</h2>
+              <p style="margin:0;color:var(--text-dim);font-size:14px;line-height:1.45">{{ friend.role }}</p>
+            </div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">@{{ friend.handle }}</span>
+          </article>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+  <!-- ===================== COMPOSE ===================== -->
+  <sc-if value="{{ isCompose }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:680px;margin:0 auto;padding:40px 24px 80px;animation:fadeUp .3s ease both">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:26px">
+        <h1 style="font-family:var(--head-font);font-size:26px;font-weight:600;margin:0;letter-spacing:-0.02em">New post</h1>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">draft</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <input value="{{ compose.title }}" onChange="{{ onComposeTitle }}" placeholder="Post title" style="width:100%;padding:6px 0;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-family:var(--head-font);font-size:26px;font-weight:600;letter-spacing:-0.02em;outline:none" />
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Tags (comma separated)</span><input value="{{ compose.tags }}" onChange="{{ onComposeTags }}" placeholder="rust, performance, backend" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none" /></label>
+        <textarea value="{{ compose.body }}" onChange="{{ onComposeBody }}" placeholder="Write your post… (blank lines separate paragraphs)" rows="14" style="width:100%;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:16px;line-height:1.7;outline:none;resize:vertical"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:22px">
+        <button onClick="{{ publish }}" style="padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Publish →</button>
+        <button onClick="{{ goHome }}" style="padding:12px 20px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;cursor:pointer">Cancel</button>
+      </div>
+    </main>
+  </sc-if>
+
+  <!-- ===================== SETTINGS ===================== -->
+  <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:620px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <h1 style="font-family:var(--head-font);font-size:26px;font-weight:600;margin:0 0 30px;letter-spacing:-0.02em">Settings</h1>
+
+      <section style="margin-bottom:34px">
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Profile</h3>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:14px"><span style="font-size:14px;color:var(--text-dim)">Name</span><input value="{{ settingsForm.name }}" onChange="{{ onSetName }}" style="padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:14px"><span style="font-size:14px;color:var(--text-dim)">Handle</span><input value="{{ settingsForm.handle }}" onChange="{{ onSetHandle }}" style="padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:14px"><span style="font-size:14px;color:var(--text-dim)">Email</span><input value="{{ settingsForm.email }}" onChange="{{ onSetEmail }}" style="padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:14px"><span style="font-size:14px;color:var(--text-dim)">Public photo URL</span><input value="{{ settingsForm.avatarUrl }}" onChange="{{ onSetAvatar }}" style="padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:grid;grid-template-columns:120px 1fr;align-items:start;gap:14px"><span style="font-size:14px;color:var(--text-dim);padding-top:10px">Bio</span><textarea value="{{ settingsForm.bio }}" onChange="{{ onSetBio }}" rows="3" style="padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none;resize:vertical"></textarea></label>
+        </div>
+      </section>
+
+      <section style="margin-bottom:34px">
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Appearance</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:14px;color:var(--text-dim)">Theme</span>
+          <div style="display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:10px">
+            <button onClick="{{ setLight }}" style="padding:7px 16px;border:none;border-radius:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;background:var(--lightBtnBg);color:var(--lightBtnColor)">☀ light</button>
+            <button onClick="{{ setDark }}" style="padding:7px 16px;border:none;border-radius:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;background:var(--darkBtnBg);color:var(--darkBtnColor)">☾ dark</button>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:34px">
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">Account</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <span style="font-size:14px;color:var(--text-dim)">Sign out of this device</span>
+          <button onClick="{{ doLogout }}" style="padding:9px 15px;background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer" style-hover="border-color:var(--accent);color:var(--accent)">sign out</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px">
+          <span style="font-size:14px;color:#c0392b">Delete account</span>
+          <button style="padding:9px 15px;background:transparent;border:1px solid color-mix(in srgb,#c0392b 40%,transparent);border-radius:9px;color:#c0392b;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">delete</button>
+        </div>
+      </section>
+
+      <div style="display:flex;align-items:center;gap:14px">
+        <button onClick="{{ saveSettings }}" style="padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Save changes</button>
+        <sc-if value="{{ settingsSaved }}" hint-placeholder-val="{{ false }}">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">✓ saved</span>
+        </sc-if>
+      </div>
+    </main>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1463ff&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#1463ff&quot;,&quot;#0b84d8&quot;,&quot;#2f6fed&quot;,&quot;#1f4fbf&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;monoHeadings&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = {
+    page: 'home', authed: true, theme: 'dark',
+    query: '', activeTag: null, selectedPostId: null, commentDraft: '',
+    settingsSaved: false,
+    user: { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12',
+      bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' },
+    loginForm: { email: '', password: '' },
+    regForm: { name: '', handle: '', email: '', password: '' },
+    compose: { title: '', tags: '', body: '' },
+    settingsForm: { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12', bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' },
+    posts: [
+      { id: 'me1', title: 'Mechanical engineering: designing parts that survive real loads', author: 'Nora Kim', authorHandle: 'nora',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['mechanical engineering', 'design', 'materials'], likes: 74, liked: false,
+        excerpt: 'A practical look at turning force, fatigue, and tolerances into parts that can handle daily use.',
+        body: ['Mechanical engineering starts with loads. Before picking a material or drawing a bracket, define the forces, cycles, temperature range, and failure modes the part will face.', 'Good designs leave room for manufacturing variation. A perfect CAD model is less useful than a part with tolerances that a shop can actually hit.', 'The best review question is simple: what breaks first, and how would we know before it reaches a customer?'], comments: [] },
+      { id: 'me2', title: 'Thermal management for compact machines', author: 'Nora Kim', authorHandle: 'nora',
+        date: 'Jul 7, 2026', readTime: '6 min read', tags: ['mechanical engineering', 'thermal', 'systems'], likes: 68, liked: false,
+        excerpt: 'Heat sinks, airflow paths, and enclosure choices matter long before the prototype starts running hot.',
+        body: ['Thermal problems are system problems. A hot motor, battery, or controller is often telling you that the enclosure, airflow, and duty cycle were designed separately.', 'Start with a heat budget and a path to ambient air. Every interface adds resistance, and every blocked vent turns into a field issue.', 'Testing across real operating cycles catches failures that a bench fan can hide.'], comments: [] },
+      { id: 'me3', title: 'Tolerances are product decisions', author: 'Nora Kim', authorHandle: 'nora',
+        date: 'Jul 6, 2026', readTime: '4 min read', tags: ['mechanical engineering', 'manufacturing', 'quality'], likes: 59, liked: false,
+        excerpt: 'Tighter tolerances are expensive, so engineering teams should reserve them for the dimensions that matter.',
+        body: ['A tolerance is a cost decision disguised as a drawing note. Tighten everything and you slow manufacturing, raise scrap, and still may not improve the product.', 'Identify the functional dimensions first. Then relax anything that does not affect fit, safety, performance, or serviceability.', 'A good drawing tells manufacturing where precision matters and where it does not.'], comments: [] },
+      { id: 'ee1', title: 'Electrical engineering: reading schematics like systems', author: 'Maya Chen', authorHandle: 'maya',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['electrical engineering', 'circuits', 'hardware'], likes: 88, liked: false,
+        excerpt: 'A schematic is more than symbols. It is a map of power, signals, assumptions, and failure boundaries.',
+        body: ['Read a schematic from power entry outward. Follow rails, grounds, protection, clocks, and high-speed signals before focusing on individual components.', 'Most board failures come from assumptions: a missing pull-up, a shared ground path, a connector exposed to the real world.', 'Annotating intent in reviews catches more bugs than checking values alone.'], comments: [] },
+      { id: 'ee2', title: 'Power budgets for embedded devices', author: 'Maya Chen', authorHandle: 'maya',
+        date: 'Jul 7, 2026', readTime: '6 min read', tags: ['electrical engineering', 'embedded', 'power'], likes: 92, liked: false,
+        excerpt: 'Battery life depends on sleep states, regulator choices, radios, and the boring math between them.',
+        body: ['Power budgets should start as spreadsheets and end as measurements. Estimate active, idle, transmit, and sleep currents for each subsystem.', 'Regulator efficiency changes with load, so the part that looks best at peak current may waste energy during idle time.', 'Instrument early. If you cannot measure microamp sleep current, you cannot improve it.'], comments: [] },
+      { id: 'ee3', title: 'Grounding mistakes that create noisy products', author: 'Maya Chen', authorHandle: 'maya',
+        date: 'Jul 6, 2026', readTime: '4 min read', tags: ['electrical engineering', 'pcb', 'signal integrity'], likes: 77, liked: false,
+        excerpt: 'Noise is often a layout issue hiding behind firmware symptoms and flaky sensor readings.',
+        body: ['Ground is not magic. It is a return path, and every signal chooses the path physics gives it.', 'Keep noisy switching loops small, separate sensitive analog routes, and avoid cutting return paths with careless plane splits.', 'When measurements look impossible, inspect the current path before blaming the sensor.'], comments: [] },
+      { id: 'ne1', title: 'Nuclear engineering: designing with defense in depth', author: 'Ethan Park', authorHandle: 'ethan',
+        date: 'Jul 8, 2026', readTime: '6 min read', tags: ['nuclear engineering', 'safety', 'systems'], likes: 81, liked: false,
+        excerpt: 'Nuclear systems rely on layered controls where no single assumption is allowed to carry safety alone.',
+        body: ['Defense in depth means every critical function has layers: prevention, detection, control, and mitigation.', 'The engineering mindset is conservative because uncertainty compounds. Materials, operators, sensors, and procedures all matter.', 'A strong design asks what happens after the first barrier fails, then the second.'], comments: [] },
+      { id: 'ne2', title: 'Radiation shielding as an optimization problem', author: 'Ethan Park', authorHandle: 'ethan',
+        date: 'Jul 7, 2026', readTime: '5 min read', tags: ['nuclear engineering', 'radiation', 'materials'], likes: 63, liked: false,
+        excerpt: 'Shielding design balances source terms, geometry, material selection, maintenance access, and cost.',
+        body: ['Shielding is not just adding mass. Different radiation types call for different materials, thicknesses, and placement.', 'Geometry matters because distance is a powerful control. Moving work points and access paths can reduce dose without overbuilding.', 'The best shielding plan supports inspection and maintenance, not just the initial analysis.'], comments: [] },
+      { id: 'ne3', title: 'What reactor control teaches every engineer', author: 'Ethan Park', authorHandle: 'ethan',
+        date: 'Jul 6, 2026', readTime: '5 min read', tags: ['nuclear engineering', 'controls', 'operations'], likes: 70, liked: false,
+        excerpt: 'Slow feedback, strict procedures, and conservative margins make nuclear controls a study in disciplined engineering.',
+        body: ['Control systems in nuclear environments reward patience and clarity. The plant responds through physics, not preference.', 'Instrumentation, procedures, and training are part of the design. A confusing control room can defeat a correct model.', 'Good controls make the safe action obvious and the unsafe action difficult.'], comments: [] },
+      { id: 'ce1', title: 'Civil engineering: designing bridges for maintenance', author: 'Samir Patel', authorHandle: 'samir',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['civil engineering', 'structures', 'maintenance'], likes: 84, liked: false,
+        excerpt: 'A bridge is not finished when it opens. Access, inspection, drainage, and repairability shape its real lifespan.',
+        body: ['Civil engineering lives on long timelines. A structure must be buildable, inspectable, repairable, and understandable decades later.', 'Drainage details often decide durability. Water finds every weakness and turns small defects into expensive repairs.', 'Design reviews should include the people who will inspect and maintain the asset.'], comments: [] },
+      { id: 'ce2', title: 'Stormwater systems and urban tradeoffs', author: 'Samir Patel', authorHandle: 'samir',
+        date: 'Jul 7, 2026', readTime: '6 min read', tags: ['civil engineering', 'water', 'infrastructure'], likes: 73, liked: false,
+        excerpt: 'Managing stormwater is part hydraulics, part land use, and part planning for storms that keep changing.',
+        body: ['Stormwater design starts with rainfall, surfaces, storage, conveyance, and acceptable risk.', 'Green infrastructure can slow runoff, but it still needs maintenance plans and performance monitoring.', 'The best systems combine pipes, ponds, grading, and policy instead of asking one tool to do everything.'], comments: [] },
+      { id: 'ce3', title: 'Soil reports are design documents', author: 'Samir Patel', authorHandle: 'samir',
+        date: 'Jul 6, 2026', readTime: '4 min read', tags: ['civil engineering', 'geotechnical', 'foundations'], likes: 65, liked: false,
+        excerpt: 'Foundations fail when teams treat subsurface conditions as background information instead of active constraints.',
+        body: ['A soil report tells you what kind of uncertainty the project is standing on. Read it before the layout becomes fixed.', 'Bearing capacity, settlement, groundwater, and excavation constraints all shape cost and schedule.', 'Geotechnical risk is easiest to manage early, when the design still has room to move.'], comments: [] },
+      { id: 'se1', title: 'Software engineering: keeping services understandable', author: 'Alex Rivera', authorHandle: 'alex',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['software engineering', 'architecture', 'backend'], likes: 119, liked: false,
+        excerpt: 'The best services are not just scalable. They are easy to reason about when production is noisy.',
+        body: ['A service boundary should make ownership and failure modes clearer. If a split makes debugging harder, it is not helping yet.', 'Logs, metrics, traces, and runbooks are part of the codebase in every way that matters.', 'Software engineering quality shows up when a new teammate can explain the system without folklore.'], comments: [] },
+      { id: 'se2', title: 'API contracts that age well', author: 'Alex Rivera', authorHandle: 'alex',
+        date: 'Jul 7, 2026', readTime: '6 min read', tags: ['software engineering', 'api', 'systems'], likes: 106, liked: false,
+        excerpt: 'Good APIs make change possible by being explicit about ownership, compatibility, and failure behavior.',
+        body: ['An API is a promise. Versioning, validation, error shapes, and idempotency all determine how expensive that promise becomes.', 'Document examples for real workflows, not just fields. Consumers need to understand intent and edge cases.', 'Compatibility is easier when contracts are tested automatically before deployment.'], comments: [] },
+      { id: 'se3', title: 'Refactoring without stopping delivery', author: 'Alex Rivera', authorHandle: 'alex',
+        date: 'Jul 6, 2026', readTime: '5 min read', tags: ['software engineering', 'refactoring', 'teams'], likes: 94, liked: false,
+        excerpt: 'Refactoring works best when it is sliced into reversible changes that reduce risk each week.',
+        body: ['Big rewrites feel clean until they meet production. Smaller refactors preserve feedback and keep delivery moving.', 'Start by adding tests around behavior, then move code behind stable interfaces.', 'A refactor is successful when future changes become boring.'], comments: [] },
+      { id: 'ae1', title: 'Aerospace engineering: mass budgets drive everything', author: 'Iris Stone', authorHandle: 'iris',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['aerospace engineering', 'structures', 'flight'], likes: 97, liked: false,
+        excerpt: 'Every gram competes with strength, thermal control, power, payload, and manufacturing reality.',
+        body: ['Aerospace design is a chain of mass trades. Add structure here and you may need more propulsion, more battery, or less payload.', 'Margins matter, but excess margin has a cost that travels through the whole vehicle.', 'A good mass budget is updated constantly, not saved for design reviews.'], comments: [] },
+      { id: 'ae2', title: 'Wind tunnel data and simulation trust', author: 'Iris Stone', authorHandle: 'iris',
+        date: 'Jul 7, 2026', readTime: '6 min read', tags: ['aerospace engineering', 'aerodynamics', 'simulation'], likes: 89, liked: false,
+        excerpt: 'CFD and physical testing are strongest when each is used to challenge the other.',
+        body: ['Simulation gives speed and visibility. Wind tunnel testing gives reality and calibration.', 'Disagreements between them are not failures. They are where the learning starts.', 'Trust grows when models are validated across the operating envelope, not just at the design point.'], comments: [] },
+      { id: 'ae3', title: 'Flight software depends on hardware discipline', author: 'Iris Stone', authorHandle: 'iris',
+        date: 'Jul 6, 2026', readTime: '5 min read', tags: ['aerospace engineering', 'avionics', 'software'], likes: 82, liked: false,
+        excerpt: 'Reliable flight systems come from clear interfaces between sensors, actuators, timing, and control logic.',
+        body: ['Flight software cannot rescue unclear hardware assumptions. Timing, sensor quality, actuator limits, and fault handling shape the code.', 'Interfaces should be boring, explicit, and tested under degraded conditions.', 'The system is ready when failure cases are practiced, not merely documented.'], comments: [] },
+      { id: 'che1', title: 'Chemical engineering: scaling reactions safely', author: 'Leah Grant', authorHandle: 'leah',
+        date: 'Jul 8, 2026', readTime: '6 min read', tags: ['chemical engineering', 'process', 'safety'], likes: 76, liked: false,
+        excerpt: 'A reaction that behaves in a flask can become a heat, mixing, and pressure problem at plant scale.',
+        body: ['Scale changes chemistry because heat transfer, mixing, residence time, and pressure behave differently.', 'Process safety reviews should happen before equipment choices become expensive to change.', 'The best scale-up plans add instrumentation and staged validation instead of trusting a single jump.'], comments: [] },
+      { id: 'che2', title: 'Process control for stable production', author: 'Leah Grant', authorHandle: 'leah',
+        date: 'Jul 7, 2026', readTime: '5 min read', tags: ['chemical engineering', 'controls', 'manufacturing'], likes: 69, liked: false,
+        excerpt: 'Stable plants depend on sensors, control loops, operator displays, and clear responses to drift.',
+        body: ['Process control starts with understanding what must stay inside limits: temperature, flow, pressure, level, and composition.', 'A control loop is only useful when the sensor is reliable and the actuator has enough authority.', 'Operators need displays that show trend and context, not just alarms.'], comments: [] },
+      { id: 'che3', title: 'Material balances make problems visible', author: 'Leah Grant', authorHandle: 'leah',
+        date: 'Jul 6, 2026', readTime: '4 min read', tags: ['chemical engineering', 'mass balance', 'operations'], likes: 61, liked: false,
+        excerpt: 'Before optimizing a process, account for every stream entering, leaving, reacting, and accumulating.',
+        body: ['A material balance is the simplest way to catch impossible assumptions. If mass disappears on paper, it will cause trouble in production.', 'Balances make yield, waste, recycle, and purge decisions visible.', 'They also create a shared language between process engineers, operators, and finance.'], comments: [] },
+      { id: 're1', title: 'Robotics engineering: sensors are part of the control loop', author: 'Owen Brooks', authorHandle: 'owen',
+        date: 'Jul 8, 2026', readTime: '5 min read', tags: ['robotics engineering', 'controls', 'sensors'], likes: 101, liked: false,
+        excerpt: 'A robot only controls the world it can measure, and every sensor has latency, noise, and blind spots.',
+        body: ['Robotics engineering begins with uncertainty. Sensors provide estimates, not truth.', 'Control loops need to account for latency, calibration drift, noise, and failure modes.', 'A robot becomes dependable when perception, planning, and actuation are tested as one system.'], comments: [] },
+      { id: 're2', title: 'Designing robot arms for serviceability', author: 'Owen Brooks', authorHandle: 'owen',
+        date: 'Jul 7, 2026', readTime: '5 min read', tags: ['robotics engineering', 'mechanisms', 'maintenance'], likes: 87, liked: false,
+        excerpt: 'Robots that are easy to repair spend more time doing useful work and less time waiting for specialists.',
+        body: ['Serviceability is an engineering feature. Cable routing, modular joints, accessible fasteners, and calibration workflows all matter.', 'A beautiful mechanism that takes two hours to open will punish every field team.', 'Design the repair path while the CAD is still flexible.'], comments: [] },
+      { id: 're3', title: 'Simulation is not the finish line for robots', author: 'Owen Brooks', authorHandle: 'owen',
+        date: 'Jul 6, 2026', readTime: '6 min read', tags: ['robotics engineering', 'simulation', 'testing'], likes: 93, liked: false,
+        excerpt: 'Simulation speeds iteration, but the real world adds friction, backlash, lighting, wear, and surprises.',
+        body: ['Simulation is a multiplier, not a substitute. It helps explore control strategies and edge cases quickly.', 'Hardware-in-the-loop testing closes the gap by adding real sensors, controllers, and timing.', 'The goal is not a perfect sim. The goal is knowing which real-world failures the sim cannot show you.'], comments: [] },      { id: 'p1', title: 'The case for boring infrastructure', author: 'Alex Rivera', authorHandle: 'alex',
+        date: 'Jul 2, 2026', readTime: '6 min read', tags: ['infra', 'devops', 'reliability'], likes: 128, liked: false,
+        excerpt: 'The most exciting thing your platform team can build is something nobody ever has to think about. Here is why we keep choosing the dull option.',
+        body: [
+          'Every few quarters someone proposes replacing a working system with a shinier one. The pitch is always the same: it is faster, it is modern, it will scale. And every time, the honest answer is that our current system already does the job and almost never pages us at 3am.',
+          'Boring infrastructure is a feature, not a compromise. A Postgres instance you understand deeply beats a distributed database you understand vaguely. The cost of novelty is paid in incidents, and that bill comes due when you can least afford it.',
+          'None of this means never adopting new tools. It means raising the bar: a new dependency has to earn its place by removing more operational surface area than it adds. Most do not. The ones that do are worth the switch — and rare enough that you will remember each one.'
+        ],
+        comments: [
+          { author: 'Priya Nair', initials: 'PN', time: '2 days ago', text: 'The 3am test is the only benchmark that matters. Bookmarking this for the next architecture review.' },
+          { author: 'Sam Reyes', initials: 'SR', time: '1 day ago', text: 'Counterpoint: sometimes the boring thing is boring because it is quietly rotting. Audits matter too.' }
+        ] },
+      { id: 'p2', title: 'A field guide to database indexes', author: 'Alex Rivera', authorHandle: 'alex',
+        date: 'Jun 24, 2026', readTime: '9 min read', tags: ['databases', 'sql', 'performance'], likes: 214, liked: false,
+        excerpt: 'B-tree, hash, partial, covering — a practical tour of when each index earns its keep and when it just slows down your writes.',
+        body: [
+          'An index is a bet. You are wagering write throughput and disk space against read latency, and like any bet it only pays off if you understand the odds. Adding indexes reflexively is how tables end up with a dozen of them, half unused.',
+          'Start with the queries, not the schema. Pull your slowest queries from the logs, read the plans, and add the narrowest index that turns a sequential scan into an index scan. A covering index that answers a query entirely from the index is often the biggest single win.',
+          'And remember: every index you add is another structure the write path must maintain. Measure before and after. If the plan did not change and the latency did not move, drop it.'
+        ],
+        comments: [
+          { author: 'Marcus Feld', initials: 'MF', time: '5 days ago', text: 'Partial indexes are criminally underused. One WHERE clause cut our index size by 80%.' }
+        ] },
+      { id: 'p3', title: 'Debugging flaky tests at scale', author: 'Priya Nair', authorHandle: 'priya',
+        date: 'Jun 18, 2026', readTime: '7 min read', tags: ['testing', 'ci', 'process'], likes: 96, liked: false,
+        excerpt: 'A flaky test is a test that lies to you occasionally. Multiply that by ten thousand tests and you have a trust problem, not a testing problem.',
+        body: [
+          'The insidious thing about flaky tests is not the failures — it is the retries. Once a team learns that hitting "rerun" makes red turn green, the signal is gone. The suite still runs, but nobody believes it anymore.',
+          'We treat flakiness as a first-class bug. Every intermittent failure gets quarantined automatically, logged with full timing data, and assigned to the owning team. Quarantine is not a graveyard; it is a deadline.',
+          'Most flakes trace back to three causes: shared state between tests, real time leaking into assertions, and async operations without a proper wait. Fix those patterns once and the long tail shrinks fast.'
+        ],
+        comments: [] },
+      { id: 'p4', title: 'Why we rewrote our scheduler in Rust', author: 'Dana Osei', authorHandle: 'dana',
+        date: 'Jun 9, 2026', readTime: '11 min read', tags: ['rust', 'performance', 'backend'], likes: 331, liked: true,
+        excerpt: 'It was not about speed, at least not at first. It was about the class of bugs we wanted to make impossible to write.',
+        body: [
+          'Our old scheduler was a marvel of defensive programming — thousands of lines of null checks and lock ordering comments written by people who had been burned. It worked. It was also terrifying to change.',
+          'Rust did not make the scheduler faster by magic. It made a whole category of concurrency bugs into compile errors, which meant we could finally refactor without holding our breath. The performance win came later, almost as a side effect of code we were no longer afraid to touch.',
+          'The rewrite took two engineers a quarter. The honest ROI is not the latency graph, satisfying as it is. It is that on-call for the scheduler went from a dreaded rotation to an afterthought.'
+        ],
+        comments: [
+          { author: 'Alex Rivera', initials: 'AR', time: '3 weeks ago', text: 'The "no longer afraid to touch it" point is the real headline. Fearless refactoring is worth more than raw speed.' }
+        ] },
+      { id: 'p5', title: 'Shipping less to ship faster', author: 'Lena Vogt', authorHandle: 'lena',
+        date: 'May 28, 2026', readTime: '5 min read', tags: ['process', 'teams', 'product'], likes: 152, liked: false,
+        excerpt: 'The fastest teams I have worked on were not the ones that wrote the most code. They were the ones that argued hardest about what not to build.',
+        body: [
+          'Velocity is a seductive metric because it feels like progress. But shipping more features faster only helps if those features were the right ones — and most of the time, half of them were not.',
+          'The highest-leverage meeting on our calendar is the one where we cut scope. Every feature we decide not to build is a feature we never have to maintain, document, migrate, or eventually deprecate.',
+          'Constraints are a gift. Give a team a tight deadline and a narrow scope and they will find the essential version of the idea. Give them unlimited time and they will gold-plate the wrong thing.'
+        ],
+        comments: [] }
+    ]
+  };
+
+  themes() {
+    return {
+      light: { '--bg': '#f3f8ff', '--surface': '#ffffff', '--surface-2': '#e6f0ff', '--border': '#cfe0f7', '--text': '#0e1f38', '--text-dim': '#536b8a' },
+      dark: { '--bg': '#071428', '--surface': '#0c1d35', '--surface-2': '#123052', '--border': '#24466f', '--text': '#edf6ff', '--text-dim': '#9fb7d7' }
+    };
+  }
+  accentFor(theme) {
+    const base = this.props.accentColor || '#1463ff';
+    return theme === 'dark' ? this.lighten(base) : base;
+  }
+  lighten(hex) {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!m) return hex;
+    const mix = (c) => Math.round(parseInt(c, 16) + (255 - parseInt(c, 16)) * 0.28);
+    return 'rgb(' + mix(m[1]) + ',' + mix(m[2]) + ',' + mix(m[3]) + ')';
+  }
+  applyTheme(theme) {
+    const el = this.rootEl;
+    if (!el) return;
+    const vars = this.themes()[theme];
+    Object.entries(vars).forEach(([k, v]) => el.style.setProperty(k, v));
+    const acc = this.accentFor(theme);
+    el.style.setProperty('--accent', acc);
+    el.style.setProperty('--accent-weak', 'color-mix(in srgb,' + acc + ' 13%,transparent)');
+  }
+
+  componentDidMount() {
+    const t = 'dark';
+    if (this.props.monoHeadings && this.rootEl) this.rootEl.style.setProperty('--head-font', "'IBM Plex Mono',monospace");
+    this.setState({ theme: t }, () => this.applyTheme(t));
+  }
+
+  seedUser() {
+    return { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12',
+      bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' };
+  }
+  initialsOf(name) {
+    return (name || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+  go(page) { this.setState({ page }); if (window && window.scrollTo) window.scrollTo(0, 0); }
+
+  // auth
+  doLogin = () => {
+    const u = this.seedUser();
+    this.setState({ user: u, authed: true, page: 'home', settingsForm: { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio } });
+    if (window && window.scrollTo) window.scrollTo(0, 0);
+  };
+  doRegister = () => {
+    const f = this.state.regForm;
+    const u = { name: f.name || 'New Writer', handle: f.handle || 'writer', email: f.email || 'you@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=33', bio: 'Just joined Build Stack Journal.' };
+    this.setState({ user: u, authed: true, page: 'home', settingsForm: { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio } });
+    if (window && window.scrollTo) window.scrollTo(0, 0);
+  };
+  doLogout = () => this.setState({ authed: false, page: 'login', loginForm: { email: '', password: '' } });
+
+  // field setters
+  setField = (form, key) => (e) => { const v = e.target.value; this.setState(s => ({ [form]: { ...s[form], [key]: v } })); };
+
+  // posts
+  toggleLike(id) {
+    this.setState(s => ({ posts: s.posts.map(p => p.id === id ? { ...p, liked: !p.liked, likes: p.likes + (p.liked ? -1 : 1) } : p) }));
+  }
+  openPost(id) { this.setState({ page: 'post', selectedPostId: id, commentDraft: '' }); if (window && window.scrollTo) window.scrollTo(0, 0); }
+  addComment = () => {
+    const text = this.state.commentDraft.trim();
+    if (!text) return;
+    const id = this.state.selectedPostId;
+    const u = this.state.user;
+    const c = { author: u.name, initials: this.initialsOf(u.name), time: 'just now', text };
+    this.setState(s => ({ posts: s.posts.map(p => p.id === id ? { ...p, comments: [...p.comments, c] } : p), commentDraft: '' }));
+  };
+  publish = () => {
+    const c = this.state.compose;
+    if (!c.title.trim() && !c.body.trim()) return;
+    const u = this.state.user;
+    const paras = c.body.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+    const words = c.body.trim().split(/\s+/).filter(Boolean).length;
+    const rt = Math.max(1, Math.round(words / 200));
+    const tags = c.tags.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean);
+    const post = {
+      id: 'u' + Date.now(), title: c.title.trim() || 'Untitled', author: u.name, authorHandle: u.handle,
+      date: 'Jul 9, 2026', readTime: rt + ' min read', tags, likes: 0, liked: false, coverImage: this.coverForTags(tags),
+      excerpt: (paras[0] || '').slice(0, 150) + ((paras[0] || '').length > 150 ? '…' : ''),
+      body: paras.length ? paras : ['(no content)'], comments: []
+    };
+    this.setState(s => ({ posts: [post, ...s.posts], compose: { title: '', tags: '', body: '' } }), () => this.openPost(post.id));
+  };
+  saveSettings = () => {
+    const f = this.state.settingsForm;
+    this.setState(s => ({ user: { ...s.user, name: f.name, handle: f.handle, email: f.email, avatarUrl: f.avatarUrl, bio: f.bio }, settingsSaved: true }));
+    clearTimeout(this._saveT);
+    this._saveT = setTimeout(() => this.setState({ settingsSaved: false }), 1800);
+  };
+
+  // theme
+  setTheme(t) { this.setState({ theme: t }); this.applyTheme(t); }
+  toggleTheme = () => this.setTheme('dark');
+
+  authorAvatar(handle) {
+    const avatars = {
+      alex: 'https://i.pravatar.cc/160?img=12',
+      priya: 'https://i.pravatar.cc/160?img=47',
+      dana: 'https://i.pravatar.cc/160?img=32',
+      lena: 'https://i.pravatar.cc/160?img=5',
+      writer: 'https://i.pravatar.cc/160?img=33'
+    };
+    return avatars[handle] || 'https://i.pravatar.cc/160?u=' + encodeURIComponent(handle || 'blue-harbor');
+  }
+  coverForTags(tags) {
+    const key = (tags && tags[0]) || 'writing';
+    const covers = {
+      'mechanical engineering': 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=80',
+      'electrical engineering': 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+      'nuclear engineering': 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80',
+      'civil engineering': 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80',
+      'software engineering': 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80',
+      'aerospace engineering': 'https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=1200&q=80',
+      'chemical engineering': 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=80',
+      'robotics engineering': 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80',      infra: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+      databases: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
+      testing: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80',
+      rust: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1200&q=80',
+      process: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80',
+      writing: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80'
+    };
+    return covers[key] || covers.writing;
+  }
+  enrich(p) {
+    return { ...p, coverImage: p.coverImage || this.coverForTags(p.tags), avatarUrl: p.avatarUrl || this.authorAvatar(p.authorHandle), likeGlyph: p.liked ? '♥' : '♡', commentGlyph: '💬'.length ? '❝' : '❝', commentCount: p.comments.length,
+      hasComments: p.comments.length > 0, noComments: p.comments.length === 0, authorInitials: this.initialsOf(p.author) };
+  }
+  renderVals() {
+    const s = this.state;
+    const acc = 'var(--accent)';
+    const dim = 'var(--text-dim)';
+
+    // tag chips
+    const tagSet = [];
+    s.posts.forEach(p => p.tags.forEach(t => { if (!tagSet.includes(t)) tagSet.push(t); }));
+    const tagChips = tagSet.slice(0, 12).map(name => {
+      const active = s.activeTag === name;
+      return { name, select: () => this.setState(cur => ({ activeTag: cur.activeTag === name ? null : name })),
+        chipBg: active ? 'var(--accent)' : 'transparent', chipColor: active ? '#fff' : dim };
+    });
+
+    const engineeringTypes = ['mechanical engineering', 'electrical engineering', 'nuclear engineering', 'civil engineering', 'software engineering', 'aerospace engineering', 'chemical engineering', 'robotics engineering'].map(name => ({
+      name,
+      select: () => this.setState({ query: name })
+    }));
+    // filtered feed
+    const q = s.query.trim().toLowerCase();
+    let list = s.posts;
+    if (s.activeTag) list = list.filter(p => p.tags.includes(s.activeTag));
+    if (q) list = list.filter(p => (p.title + ' ' + p.excerpt + ' ' + p.author + ' ' + p.tags.join(' ')).toLowerCase().includes(q));
+    const filteredPosts = list.map(p => {
+      const e = this.enrich(p);
+      e.open = () => this.openPost(p.id);
+      e.like = () => this.toggleLike(p.id);
+      e.likeColor = p.liked ? acc : dim;
+      return e;
+    });
+
+    // selected post
+    const sp = s.posts.find(p => p.id === s.selectedPostId);
+    const selectedPost = sp ? this.enrich(sp) : { tags: [], body: [], comments: [], title: '', author: '', date: '', readTime: '', likes: 0, coverImage: this.coverForTags([]), avatarUrl: this.authorAvatar('alex'), likeGlyph: '♡', commentGlyph: '❝', commentCount: 0, authorInitials: '', hasComments: false, noComments: true };
+
+    // authored
+    const authored = s.user ? s.posts.filter(p => p.authorHandle === s.user.handle) : [];
+    const authoredPosts = authored.map(p => { const e = this.enrich(p); e.open = () => this.openPost(p.id); return e; });
+    const likesReceived = authored.reduce((a, p) => a + p.likes, 0);
+    const ads = [
+      { title: 'Ship observability in one sprint', copy: 'TraceFlow gives backend teams logs, traces, and alerts without dashboard sprawl.' },
+      { title: 'Typed APIs without busywork', copy: 'SchemaForge generates SDKs, docs, and contract tests from one source of truth.' },
+      { title: 'Cloud cost reviews for engineers', copy: 'MeterMind finds idle spend and noisy services before finance asks.' }
+    ];
+    const portfolioItems = [
+      { title: 'Incident Timeline Engine', stack: 'TypeScript / Postgres / Redis', summary: 'A collaborative timeline for on-call reviews with deploy markers, alert imports, and action item tracking.', metric: '42% faster postmortems', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80' },
+      { title: 'Query Plan Inspector', stack: 'Go / SQL / WASM', summary: 'A browser tool that turns database explain plans into readable bottleneck reports for app engineers.', metric: '18 slow paths removed', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80' },
+      { title: 'CI Signal Dashboard', stack: 'React / Workers / SQLite', summary: 'A build health surface that groups flaky failures, ownership, and recovery trends for large test suites.', metric: '31% fewer reruns', image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=80' }
+    ];
+    const friends = [
+      { name: 'Priya Nair', handle: 'priya', role: 'Reliability engineer focused on CI systems and test infrastructure.', avatar: this.authorAvatar('priya') },
+      { name: 'Dana Osei', handle: 'dana', role: 'Backend engineer building schedulers, queues, and Rust services.', avatar: this.authorAvatar('dana') },
+      { name: 'Lena Vogt', handle: 'lena', role: 'Product-minded engineer writing about scope, teams, and delivery.', avatar: this.authorAvatar('lena') },
+      { name: 'Marcus Feld', handle: 'marcus', role: 'Database specialist who helps teams make query latency boring.', avatar: this.authorAvatar('marcus') }
+    ];
+
+
+    return {
+      // routing flags
+      authed: s.authed,
+      isLogin: s.page === 'login', isRegister: s.page === 'register', isHome: s.page === 'home',
+      isPost: s.page === 'post', isProfile: s.page === 'profile', isPortfolio: s.page === 'portfolio', isFriends: s.page === 'friends', isCompose: s.page === 'compose', isSettings: s.page === 'settings',
+      // nav
+      rootRef: (el) => { this.rootEl = el; },
+      goHome: () => this.go('home'), goCompose: () => this.go('compose'), goPortfolio: () => this.go('portfolio'), goFriends: () => this.go('friends'), goProfile: () => this.go('profile'),
+      goSettings: () => this.go('settings'), goLogin: () => this.go('login'), goRegister: () => this.go('register'),
+      doLogin: this.doLogin, doRegister: this.doRegister, doLogout: this.doLogout,
+      toggleTheme: this.toggleTheme, setLight: () => this.setTheme('dark'), setDark: () => this.setTheme('dark'),
+      themeIcon: s.theme === 'dark' ? '☀' : '☾',
+      // segmented theme button styles
+      lightBtnBg: s.theme === 'light' ? 'var(--surface)' : 'transparent',
+      lightBtnColor: s.theme === 'light' ? 'var(--text)' : dim,
+      darkBtnBg: s.theme === 'dark' ? 'var(--surface)' : 'transparent',
+      darkBtnColor: s.theme === 'dark' ? 'var(--text)' : dim,
+      // user
+      user: s.user || this.seedUser(),
+      userInitials: this.initialsOf(s.user ? s.user.name : ''),
+      userAvatarUrl: (s.user && s.user.avatarUrl) || this.authorAvatar(s.user ? s.user.handle : 'alex'),
+      authoredCount: authored.length, likesReceived,
+      hasAuthored: authored.length > 0, noAuthored: authored.length === 0,
+      authoredPosts,
+      // forms
+      loginForm: s.loginForm, regForm: s.regForm, compose: s.compose, settingsForm: s.settingsForm,
+      onLoginEmail: this.setField('loginForm', 'email'), onLoginPassword: this.setField('loginForm', 'password'),
+      onRegName: this.setField('regForm', 'name'), onRegHandle: this.setField('regForm', 'handle'),
+      onRegEmail: this.setField('regForm', 'email'), onRegPassword: this.setField('regForm', 'password'),
+      onComposeTitle: this.setField('compose', 'title'), onComposeTags: this.setField('compose', 'tags'), onComposeBody: this.setField('compose', 'body'),
+      onSetName: this.setField('settingsForm', 'name'), onSetHandle: this.setField('settingsForm', 'handle'),
+      onSetEmail: this.setField('settingsForm', 'email'), onSetAvatar: this.setField('settingsForm', 'avatarUrl'), onSetBio: this.setField('settingsForm', 'bio'),
+      publish: this.publish, saveSettings: this.saveSettings, settingsSaved: s.settingsSaved,
+      // feed
+      query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
+      ads, portfolioItems, portfolioCount: portfolioItems.length, friends, friendCount: friends.length, engineeringTypes,
+      tagChips, filteredPosts, resultCount: filteredPosts.length,
+      hasResults: filteredPosts.length > 0, noResults: filteredPosts.length === 0,
+      // detail
+      selectedPost,
+      commentDraft: s.commentDraft, onCommentDraft: (e) => this.setState({ commentDraft: e.target.value }),
+      addComment: this.addComment, likeSelected: () => sp && this.toggleLike(sp.id),
+      selLikeBg: sp && sp.liked ? 'var(--accent-weak)' : 'transparent',
+      selLikeBorder: sp && sp.liked ? 'var(--accent)' : 'var(--border)',
+      selLikeColor: sp && sp.liked ? acc : 'var(--text)'
+    };
+  }
+}
+</script>
+</body>
+</html>

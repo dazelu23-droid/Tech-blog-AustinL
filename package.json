@@ -1,0 +1,12 @@
+{
+  "name": "build-stack-journal",
+  "version": "1.0.0",
+  "description": "Build Stack Journal blog with a dependency-free Node backend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["blog", "engineering", "node"],
+  "license": "MIT"
+}
