@@ -35,7 +35,7 @@ function sendJson(res, status, payload) {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store',
     'access-control-allow-origin': '*',
-    'access-control-allow-methods': 'GET,POST,PATCH,OPTIONS',
+    'access-control-allow-methods': 'GET,POST,PATCH,DELETE,OPTIONS',
     'access-control-allow-headers': 'content-type'
   });
   res.end(body);
@@ -50,7 +50,7 @@ function readBody(req) {
     let body = '';
     req.on('data', chunk => {
       body += chunk;
-      if (body.length > 1_000_000) {
+      if (body.length > 50_000_000) {
         req.destroy();
         const error = new Error('Request body too large'); error.status = 400; reject(error);
       }
@@ -119,10 +119,16 @@ function listPosts(db, searchParams) {
   return posts.map(enrichPost);
 }
 
+function normalizeMediaList(value) {
+  if (Array.isArray(value)) return value.map(item => String(item).trim()).filter(Boolean);
+  return String(value || '').split(/\n+/).map(item => item.trim()).filter(Boolean);
+}
+function isVideoUrl(url) {
+  return /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(String(url || ''));
+}
 function createPost(payload, profile) {
   const title = String(payload.title || '').trim();
   const rawBody = String(payload.body || '').trim();
-  if (!title && !rawBody) return null;
 
   const body = Array.isArray(payload.body)
     ? payload.body.map(p => String(p).trim()).filter(Boolean)
@@ -130,20 +136,36 @@ function createPost(payload, profile) {
   const tags = Array.isArray(payload.tags)
     ? payload.tags.map(t => String(t).replace(/^#/, '').trim()).filter(Boolean)
     : String(payload.tags || '').split(',').map(t => t.replace(/^#/, '').trim()).filter(Boolean);
+  const images = normalizeMediaList(payload.images);
+  const videos = normalizeMediaList(payload.videos);
+  const audios = normalizeMediaList(payload.audios);
+  const banner = String(payload.banner || '').trim();
+  const bodyHtml = String(payload.bodyHtml || '').trim();
+  const author = String(payload.author || '').trim() || profile.name;
+  const authorHandle = String(payload.authorHandle || '').trim() || profile.handle;
+  if (!title && !rawBody && !images.length && !videos.length && !audios.length && !banner && !bodyHtml) return null;
+  const fallbackTitle = images.length ? 'Photo post' : videos.length ? 'Video post' : audios.length ? 'Audio post' : 'Untitled post';
   const wordCount = body.join(' ').split(/\s+/).filter(Boolean).length;
 
   return {
     id: `u${Date.now()}`,
-    title: title || 'Untitled',
-    author: profile.name,
-    authorHandle: profile.handle,
+    title: title || fallbackTitle,
+    author,
+    authorHandle,
     date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-    readTime: `${Math.max(1, Math.round(wordCount / 200))} min read`,
+    readTime: String(payload.readTime || '').trim() || `${Math.max(1, Math.round(wordCount / 200))} min read`,
     tags,
+    banner,
+    coverImage: banner && !isVideoUrl(banner) ? banner : null,
+    coverVideo: banner && isVideoUrl(banner) ? banner : null,
+    images,
+    videos,
+    audios,
     likes: 0,
     liked: false,
-    excerpt: (body[0] || '').slice(0, 150),
+    excerpt: String(payload.excerpt || '').trim() || (body[0] || '').slice(0, 150),
     body: body.length ? body : ['(no content)'],
+    bodyHtml,
     comments: []
   };
 }
@@ -170,7 +192,7 @@ async function handleApi(req, res, url) {
   if (req.method === 'POST' && url.pathname === '/api/posts') {
     const payload = await readBody(req);
     const post = createPost(payload, db.profile);
-    if (!post) return sendError(res, 400, 'Post title or body is required');
+    if (!post) return sendError(res, 400, 'Post title, body, or media is required');
     db.posts.unshift(post);
     writeDb(db);
     sendJson(res, 201, { post: enrichPost(post) });
@@ -180,6 +202,13 @@ async function handleApi(req, res, url) {
   if (parts[0] === 'api' && parts[1] === 'posts' && parts[2]) {
     const post = db.posts.find(item => item.id === parts[2]);
     if (!post) return sendError(res, 404, 'Post not found');
+
+    if (req.method === 'DELETE' && parts.length === 3) {
+      db.posts = db.posts.filter(item => item.id !== parts[2]);
+      writeDb(db);
+      sendJson(res, 200, { ok: true, id: parts[2] });
+      return;
+    }
 
     if (req.method === 'GET' && parts.length === 3) {
       sendJson(res, 200, { post: enrichPost(post) });

@@ -9,9 +9,11 @@
   img, svg { max-width: 100%; }
   p { orphans: 3; widows: 3; }
 }
-</style><meta charset="utf-8">
+</style>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Build Stack Journal</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="%231c5fd6"/><rect x="7" y="8.5" width="18" height="4" rx="2" fill="%23fff"/><rect x="7" y="14" width="13" height="4" rx="2" fill="%23fff" fill-opacity="0.85"/><rect x="7" y="19.5" width="8" height="4" rx="2" fill="%23fff" fill-opacity="0.65"/></svg>" />
 <script src="./support.js"></script>
 </head>
 <body>
@@ -35,7 +37,7 @@
   <sc-if value="{{ authed }}" hint-placeholder-val="{{ false }}">
     <header style="position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:13px 22px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)">
       <div style="display:flex;align-items:center;gap:26px">
-        <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;cursor:pointer;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</span>
+        <span onClick="{{ goHome }}" style="display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;cursor:pointer;letter-spacing:-0.01em"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:block"><rect width="32" height="32" rx="9" fill="#1c5fd6"/><rect x="7" y="8.5" width="18" height="4" rx="2" fill="#fff"/><rect x="7" y="14" width="13" height="4" rx="2" fill="#fff" fill-opacity="0.85"/><rect x="7" y="19.5" width="8" height="4" rx="2" fill="#fff" fill-opacity="0.65"/></svg><span style="color:var(--accent)">Build</span> Stack Journal</span>
         <nav style="display:flex;gap:2px">
           <span onClick="{{ goHome }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">home</span>
           <span onClick="{{ goCompose }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);cursor:pointer;padding:6px 9px;border-radius:6px" style-hover="color:var(--text);background:var(--surface-2)">write</span>
@@ -57,16 +59,19 @@
   <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px">
       <div style="width:100%;max-width:360px;animation:fadeUp .3s ease both">
-        <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:34px;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</div>
+        <div style="display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:34px;letter-spacing:-0.01em"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:block"><rect width="32" height="32" rx="9" fill="#1c5fd6"/><rect x="7" y="8.5" width="18" height="4" rx="2" fill="#fff"/><rect x="7" y="14" width="13" height="4" rx="2" fill="#fff" fill-opacity="0.85"/><rect x="7" y="19.5" width="8" height="4" rx="2" fill="#fff" fill-opacity="0.65"/></svg><span style="color:var(--accent)">Build</span> Stack Journal</div>
         <h1 style="font-family:var(--head-font);font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-0.02em">Sign in</h1>
-        <p style="color:var(--text-dim);margin:0 0 26px;font-size:14px">Welcome back. Pick up where you left off.</p>
+        <p style="color:var(--text-dim);margin:0 0 26px;font-size:14px">Sign in with a username and password you created.</p>
         <div style="display:flex;flex-direction:column;gap:14px">
-          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Email</span><input value="{{ loginForm.email }}" onChange="{{ onLoginEmail }}" placeholder="you@domain.com" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Username</span><input value="{{ loginForm.email }}" onChange="{{ onLoginEmail }}" placeholder="your-username" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
           <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Password</span><input type="password" value="{{ loginForm.password }}" onChange="{{ onLoginPassword }}" placeholder="••••••••" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)"><input type="checkbox" checked="{{ loginForm.remember }}" onChange="{{ onLoginRemember }}" style="width:14px;height:14px;accent-color:var(--accent)" />
+            stay signed in
+          </label>
           <button onClick="{{ doLogin }}" style="margin-top:6px;padding:12px 16px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Sign in →</button>
         </div>
         <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim)">New here? <span onClick="{{ goRegister }}" style="color:var(--accent);cursor:pointer;font-weight:500">Create an account</span></div>
-        <div style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);opacity:.7">// demo — any credentials work</div>
+        <sc-if value="{{ authMessage }}" hint-placeholder-val="false"><div style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--authMessageColor)">{{ authMessage }}</div></sc-if>
       </div>
     </div>
   </sc-if>
@@ -75,17 +80,17 @@
   <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ false }}">
     <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px">
       <div style="width:100%;max-width:360px;animation:fadeUp .3s ease both">
-        <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:30px;letter-spacing:-0.01em"><span style="color:var(--accent)">Build</span> Stack Journal</div>
+        <div style="display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:18px;margin-bottom:30px;letter-spacing:-0.01em"><svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:block"><rect width="32" height="32" rx="9" fill="#1c5fd6"/><rect x="7" y="8.5" width="18" height="4" rx="2" fill="#fff"/><rect x="7" y="14" width="13" height="4" rx="2" fill="#fff" fill-opacity="0.85"/><rect x="7" y="19.5" width="8" height="4" rx="2" fill="#fff" fill-opacity="0.65"/></svg><span style="color:var(--accent)">Build</span> Stack Journal</div>
         <h1 style="font-family:var(--head-font);font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-0.02em">Create account</h1>
-        <p style="color:var(--text-dim);margin:0 0 24px;font-size:14px">Start writing in under a minute.</p>
+        <p style="color:var(--text-dim);margin:0 0 24px;font-size:14px">Create a unique username and password first.</p>
         <div style="display:flex;flex-direction:column;gap:13px">
           <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Name</span><input value="{{ regForm.name }}" onChange="{{ onRegName }}" placeholder="Ada Lovelace" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
-          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Handle</span><input value="{{ regForm.handle }}" onChange="{{ onRegHandle }}" placeholder="ada" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
+          <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Username</span><input value="{{ regForm.handle }}" onChange="{{ onRegHandle }}" placeholder="ada" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
           <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Email</span><input value="{{ regForm.email }}" onChange="{{ onRegEmail }}" placeholder="you@domain.com" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
           <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Password</span><input type="password" value="{{ regForm.password }}" onChange="{{ onRegPassword }}" placeholder="••••••••" style="width:100%;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" /></label>
           <button onClick="{{ doRegister }}" style="margin-top:6px;padding:12px 16px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Create account →</button>
         </div>
-        <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim)">Already have one? <span onClick="{{ goLogin }}" style="color:var(--accent);cursor:pointer;font-weight:500">Sign in</span></div>
+        <div style="margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim)">Already have one? <span onClick="{{ goLogin }}" style="color:var(--accent);cursor:pointer;font-weight:500">Sign in</span></div><sc-if value="{{ authMessage }}" hint-placeholder-val="false"><div style="margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--authMessageColor)">{{ authMessage }}</div></sc-if>
       </div>
     </div>
   </sc-if>
@@ -126,12 +131,17 @@
         <div style="display:flex;flex-direction:column">
           <sc-for list="{{ filteredPosts }}" as="item" hint-placeholder-count="4">
             <article style="padding:24px 0;border-top:1px solid var(--border)">
-<img onClick="{{ item.open }}" src="{{ item.coverImage }}" alt="{{ item.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:block" />
+              <sc-if value="{{ item.hasCoverVideo }}" hint-placeholder-val="{{ false }}">
+                <video onClick="{{ item.open }}" src="{{ item.coverVideo }}" autoplay muted loop playsinline controls style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:block;background:#000"></video>
+              </sc-if>
+              <sc-if value="{{ item.hasCoverImage }}" hint-placeholder-val="{{ true }}">
+                <img onClick="{{ item.open }}" src="{{ item.coverImage }}" alt="{{ item.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:block" />
+              </sc-if>
               <h2 onClick="{{ item.open }}" style="font-family:var(--head-font);font-size:21px;font-weight:600;margin:0 0 8px;letter-spacing:-0.02em;cursor:pointer;line-height:1.3" style-hover="color:var(--accent)">{{ item.title }}</h2>
               <p style="color:var(--text-dim);margin:0 0 14px;font-size:15px;line-height:1.6">{{ item.excerpt }}</p>
               <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">
-                <img src="{{ item.avatarUrl }}" alt="{{ item.author }}" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
-                <span style="color:var(--text)">{{ item.author }}</span>
+                <img onClick="{{ item.openAuthor }}" src="{{ item.avatarUrl }}" alt="{{ item.author }}" style="width:28px;height:28px;object-fit:cover;border-radius:50%;border:1px solid var(--border);cursor:pointer" />
+                <span onClick="{{ item.openAuthor }}" style="color:var(--text);cursor:pointer" style-hover="color:var(--accent)">{{ item.author }}</span>
                 <span>·</span><span>{{ item.date }}</span>
                 <span>·</span><span>{{ item.readTime }}</span>
                 <span style="flex:1"></span>
@@ -163,22 +173,50 @@
         </sc-for>
       </div>
       <h1 style="font-family:var(--head-font);font-size:34px;font-weight:600;margin:0 0 16px;letter-spacing:-0.03em;line-height:1.15">{{ selectedPost.title }}</h1>
-      <img src="{{ selectedPost.coverImage }}" alt="{{ selectedPost.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin:0 0 22px;border:1px solid var(--border);display:block" />
+            <sc-if value="{{ selectedPost.hasCoverVideo }}" hint-placeholder-val="{{ false }}">
+        <video src="{{ selectedPost.coverVideo }}" autoplay muted loop playsinline controls style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin:0 0 22px;border:1px solid var(--border);display:block;background:#000"></video>
+      </sc-if>
+      <sc-if value="{{ selectedPost.hasCoverImage }}" hint-placeholder-val="{{ true }}">
+        <img src="{{ selectedPost.coverImage }}" alt="{{ selectedPost.title }}" style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin:0 0 22px;border:1px solid var(--border);display:block" />
+      </sc-if>
       <div style="display:flex;align-items:center;gap:11px;padding-bottom:26px;margin-bottom:28px;border-bottom:1px solid var(--border)">
         <img src="{{ selectedPost.avatarUrl }}" alt="{{ selectedPost.author }}" style="width:40px;height:40px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
         <div style="display:flex;flex-direction:column;gap:1px">
-          <span style="font-size:14px;font-weight:500">{{ selectedPost.author }}</span>
+          <span style="font-size:14px;font-weight:500">{{ selectedPost.author }}</span><span style="font-size:12px;color:var(--text-dim)"> � {{ selectedPost.authorCountry }}</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ selectedPost.date }} · {{ selectedPost.readTime }}</span>
         </div>
       </div>
-      <div style="font-size:17px;line-height:1.75;color:var(--text)">
-        <sc-for list="{{ selectedPost.body }}" as="para" hint-placeholder-count="3">
-          <p style="margin:0 0 20px">{{ para }}</p>
-        </sc-for>
-      </div>
+      <sc-if value="{{ selectedPost.hasBodyHtml }}" hint-placeholder-val="false">
+        <div ref="{{ selectedPost.bodyRef }}" style="font-size:17px;line-height:1.75;color:var(--text)"></div>
+      </sc-if>
+      <sc-if value="{{ selectedPost.noBodyHtml }}" hint-placeholder-val="true">
+        <div style="font-size:17px;line-height:1.75;color:var(--text)">
+          <sc-for list="{{ selectedPost.body }}" as="para" hint-placeholder-count="3">
+            <p style="margin:0 0 20px">{{ para }}</p>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ selectedPost.hasMedia }}" hint-placeholder-val="{{ false }}">
+        <section style="display:flex;flex-direction:column;gap:16px;margin:28px 0">
+          <sc-for list="{{ selectedPost.images }}" as="img" hint-placeholder-count="1">
+            <img src="{{ img }}" alt="Post image" style="width:100%;max-height:460px;object-fit:cover;border-radius:8px;border:1px solid var(--border);display:block" />
+          </sc-for>
+          <sc-for list="{{ selectedPost.videos }}" as="video" hint-placeholder-count="1">
+            <video ref="{{ video.ref }}" src="{{ video.src }}" autoplay muted loop playsinline controls style="width:100%;border-radius:8px;border:1px solid var(--border);display:block;background:#000"></video>
+            <div style="display:flex;gap:10px;align-items:center">
+              <button onClick="{{ video.togglePause }}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Pause / Play</button>
+              <button onClick="{{ video.rewind }}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Rewind</button>
+            </div>
+          </sc-for>
+          <sc-for list="{{ selectedPost.audios }}" as="audio" hint-placeholder-count="1">
+            <audio src="{{ audio }}" controls style="width:100%;display:block"></audio>
+          </sc-for>
+        </section>
+      </sc-if>
       <div style="display:flex;align-items:center;gap:14px;margin:32px 0;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
         <button onClick="{{ likeSelected }}" style="display:flex;align-items:center;gap:8px;background:var(--selLikeBg);border:1px solid var(--selLikeBorder);color:var(--selLikeColor);padding:8px 15px;border-radius:100px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px">{{ selectedPost.likeGlyph }} {{ selectedPost.likes }}</button>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim)">{{ selectedPost.commentGlyph }} {{ selectedPost.commentCount }} comments</span>
+        <sc-if value="{{ canDelete }}" hint-placeholder-val="{{ false }}"><button onClick="{{ deleteSelected }}" style="margin-left:auto;padding:8px 15px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:100px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px">Take down</button></sc-if>
       </div>
 
       <section>
@@ -213,7 +251,7 @@
       <div style="display:flex;align-items:center;gap:18px;margin-bottom:12px">
         <img src="{{ userAvatarUrl }}" alt="{{ user.name }}" style="width:72px;height:72px;object-fit:cover;border-radius:50%;border:2px solid var(--accent-weak)" />
         <div style="flex:1">
-          <h1 style="font-family:var(--head-font);font-size:26px;font-weight:600;margin:0;letter-spacing:-0.02em">{{ user.name }}</h1>
+          <h1 style="font-family:var(--head-font);font-size:26px;font-weight:600;margin:0;letter-spacing:-0.02em">{{ user.name }}</h1><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)"> � {{ userCountry }}</span>
           <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim)">@{{ user.handle }}</span>
         </div>
         <button onClick="{{ goSettings }}" style="padding:9px 15px;background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer" style-hover="border-color:var(--accent);color:var(--accent)">edit profile</button>
@@ -274,17 +312,112 @@
         <h1 style="font-family:var(--head-font);font-size:30px;font-weight:600;margin:0;letter-spacing:-0.025em">Friends</h1>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ friendCount }} people</span>
       </div>
+      <div style="display:flex;gap:10px;margin-bottom:22px">
+        <input value="{{ friendDraft }}" onChange="{{ onFriendDraft }}" placeholder="type a username" style="flex:1;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none" />
+        <button onClick="{{ addFriend }}" style="padding:10px 14px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Add friend</button>
+      </div>
+      <sc-if value="{{ friendMessage }}" hint-placeholder-val="false"><div style="margin:-8px 0 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--friendMessageColor)">{{ friendMessage }}</div></sc-if>
+      <sc-if value="{{ hasPendingFriendRequests }}" hint-placeholder-val="false">
+        <section style="margin-bottom:24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0">
+          <h2 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 10px">Pending requests</h2>
+          <sc-for list="{{ pendingFriendRequests }}" as="request" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 0">
+              <img src="{{ request.avatar }}" alt="{{ request.name }}" style="width:38px;height:38px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
+              <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600">{{ request.name }}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">@{{ request.handle }} wants to be friends</div></div>
+              <button onClick="{{ request.accept }}" style="padding:8px 12px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Accept</button>
+            </div>
+          </sc-for>
+        </section>
+      </sc-if>
       <div style="display:flex;flex-direction:column;border-top:1px solid var(--border)">
         <sc-for list="{{ friends }}" as="friend" hint-placeholder-count="4">
           <article style="display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid var(--border)">
-            <img src="{{ friend.avatar }}" alt="{{ friend.name }}" style="width:54px;height:54px;object-fit:cover;border-radius:50%;border:1px solid var(--border);flex-shrink:0" />
+            <img onClick="{{ friend.open }}" src="{{ friend.avatar }}" alt="{{ friend.name }}" style="width:54px;height:54px;object-fit:cover;border-radius:50%;border:1px solid var(--border);flex-shrink:0;cursor:pointer" />
             <div style="flex:1;min-width:0">
-              <h2 style="font-family:var(--head-font);font-size:17px;font-weight:600;margin:0 0 3px">{{ friend.name }}</h2>
+              <h2 onClick="{{ friend.open }}" style="font-family:var(--head-font);font-size:17px;font-weight:600;margin:0 0 3px;cursor:pointer" style-hover="color:var(--accent)">{{ friend.name }}</h2>
               <p style="margin:0;color:var(--text-dim);font-size:14px;line-height:1.45">{{ friend.role }}</p>
             </div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">@{{ friend.handle }}</span>
+            <button onClick="{{ friend.chat }}" style="padding:8px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Chat</button>
+            <span onClick="{{ friend.open }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);cursor:pointer">@{{ friend.handle }}</span>
           </article>
         </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <!-- ===================== FRIEND PROFILE ===================== -->
+  <sc-if value="{{ isFriendProfile }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:720px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+      <span onClick="{{ goFriends }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);cursor:pointer" style-hover="color:var(--text)">? friends</span>
+      <div style="display:flex;align-items:center;gap:18px;margin:28px 0 18px">
+        <img src="{{ selectedFriend.avatar }}" alt="{{ selectedFriend.name }}" style="width:82px;height:82px;object-fit:cover;border-radius:50%;border:2px solid var(--accent-weak)" />
+        <div style="flex:1;min-width:0">
+          <h1 style="font-family:var(--head-font);font-size:28px;font-weight:600;margin:0 0 3px;letter-spacing:-0.02em">{{ selectedFriend.name }}</h1><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ selectedFriend.country }}</div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)">@{{ selectedFriend.handle }}</span>
+        </div>
+        <sc-if value="{{ canRequestSelectedFriend }}" hint-placeholder-val="true">
+          <button onClick="{{ requestSelectedFriend }}" style="padding:10px 14px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Add friend</button>
+        </sc-if>
+        <sc-if value="{{ selectedFriendPending }}" hint-placeholder-val="false">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);border:1px solid var(--border);border-radius:999px;padding:7px 10px">Pending</span>
+        </sc-if>
+        <sc-if value="{{ selectedFriendAlreadyAdded }}" hint-placeholder-val="false">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);border:1px solid var(--border);border-radius:999px;padding:7px 10px">Friends</span>
+          <button onClick="{{ openSelectedFriendChat }}" style="margin-left:8px;padding:8px 12px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Chat</button>
+        </sc-if>
+      </div>
+      <p style="color:var(--text);margin:0 0 24px;font-size:15px;line-height:1.6;max-width:560px">{{ selectedFriend.role }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;border-top:1px solid var(--border);padding-top:18px;margin-bottom:34px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em">Focus</div><div style="font-size:15px;margin-top:4px">{{ selectedFriend.focus }}</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em">Status</div><div style="font-size:15px;margin-top:4px">Available to collaborate</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em">Posts</div><div style="font-size:15px;margin-top:4px">{{ selectedFriendPostCount }}</div></div>
+      </div>
+      <h3 style="font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim);margin:0 0 4px">Written blogs</h3>
+      <sc-if value="{{ hasSelectedFriendPosts }}" hint-placeholder-val="true">
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ selectedFriendPosts }}" as="item" hint-placeholder-count="2">
+            <article style="padding:20px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;align-items:center">
+              <img onClick="{{ item.open }}" src="{{ item.coverImage }}" alt="{{ item.title }}" style="width:112px;aspect-ratio:16/10;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer;flex-shrink:0" />
+              <div style="flex:1">
+                <h2 onClick="{{ item.open }}" style="font-family:var(--head-font);font-size:18px;font-weight:600;margin:0 0 5px;letter-spacing:-0.01em;cursor:pointer" style-hover="color:var(--accent)">{{ item.title }}</h2>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ item.date }} � {{ item.likeGlyph }} {{ item.likes }} � {{ item.commentGlyph }} {{ item.commentCount }}</span>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noSelectedFriendPosts }}" hint-placeholder-val="false">
+        <div style="padding:30px 0;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:13px">// no written blogs yet</div>
+      </sc-if>
+    </main>
+  </sc-if>
+  <!-- ===================== CHAT ===================== -->
+  <sc-if value="{{ isChat }}" hint-placeholder-val="false">
+    <main style="max-width:720px;margin:0 auto;padding:32px 24px 80px;animation:fadeUp .3s ease both">
+      <span onClick="{{ goFriends }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);cursor:pointer" style-hover="color:var(--text)">? friends</span>
+      <div style="display:flex;align-items:center;gap:14px;margin:26px 0 18px;padding-bottom:18px;border-bottom:1px solid var(--border)">
+        <img src="{{ selectedChatFriend.avatar }}" alt="{{ selectedChatFriend.name }}" style="width:48px;height:48px;object-fit:cover;border-radius:50%;border:1px solid var(--border)" />
+        <div style="flex:1;min-width:0">
+          <h1 style="font-family:var(--head-font);font-size:24px;font-weight:600;margin:0 0 2px;letter-spacing:-0.02em">{{ selectedChatFriend.name }}</h1><div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ selectedChatFriend.country }}</div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent)">@{{ selectedChatFriend.handle }}</span>
+        </div>
+      </div>
+      <section style="min-height:320px;display:flex;flex-direction:column;gap:12px;margin-bottom:18px">
+        <sc-if value="{{ hasChatMessages }}" hint-placeholder-val="true">
+          <sc-for list="{{ selectedChatMessages }}" as="message" hint-placeholder-count="3">
+            <div style="align-self:{{ message.align }};max-width:78%;padding:10px 12px;background:{{ message.bg }};border:1px solid var(--border);border-radius:10px;color:var(--text)">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-dim);margin-bottom:3px">{{ message.author }} � {{ message.time }}</div>
+              <div style="font-size:14px;line-height:1.45">{{ message.text }}</div>
+            </div>
+          </sc-for>
+        </sc-if>
+        <sc-if value="{{ noChatMessages }}" hint-placeholder-val="false">
+          <div style="padding:48px 0;text-align:center;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:13px">// no messages yet</div>
+        </sc-if>
+      </section>
+      <div style="display:flex;gap:10px;border-top:1px solid var(--border);padding-top:16px">
+        <input value="{{ chatDraft }}" onChange="{{ onChatDraft }}" placeholder="message your friend" style="flex:1;padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:14px;outline:none" />
+        <button onClick="{{ sendChat }}" style="padding:11px 15px;background:var(--accent);border:none;border-radius:9px;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Send</button>
       </div>
     </main>
   </sc-if>
@@ -298,12 +431,30 @@
       <div style="display:flex;flex-direction:column;gap:18px">
         <input value="{{ compose.title }}" onChange="{{ onComposeTitle }}" placeholder="Post title" style="width:100%;padding:6px 0;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text);font-family:var(--head-font);font-size:26px;font-weight:600;letter-spacing:-0.02em;outline:none" />
         <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Tags (comma separated)</span><input value="{{ compose.tags }}" onChange="{{ onComposeTags }}" placeholder="rust, performance, backend" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none" /></label>
-        <textarea value="{{ compose.body }}" onChange="{{ onComposeBody }}" placeholder="Write your post… (blank lines separate paragraphs)" rows="14" style="width:100%;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:16px;line-height:1.7;outline:none;resize:vertical"></textarea>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Banner (optional — shown at the top of the post; image or video)</span><input type="file" accept="image/*,video/*" onChange="{{ onComposeBannerFiles }}" style="width:100%;padding:10px 13px;background:var(--surface);border:1px dashed var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px" /><input value="{{ compose.banner }}" onChange="{{ onComposeBanner }}" placeholder="https://example.com/banner.jpg" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none" /></label>
+                <section style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:9px">
+            <button onClick="{{ formatBold }}" title="Bold" style="width:34px;height:30px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-weight:700;cursor:pointer">B</button>
+            <button onClick="{{ formatItalic }}" title="Italic" style="width:34px;height:30px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-style:italic;cursor:pointer">I</button>
+            <button onClick="{{ formatUnderline }}" title="Underline" style="width:34px;height:30px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);text-decoration:underline;cursor:pointer">U</button>
+            <button onClick="{{ formatHeading }}" title="Heading" style="height:30px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">H2</button>
+            <button onClick="{{ formatQuote }}" title="Quote" style="height:30px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Quote</button>
+            <label title="Text color" style="width:34px;height:30px;position:relative;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:7px;cursor:pointer;overflow:hidden"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:var(--text);pointer-events:none">A</span><input type="color" title="Text color" onChange="{{ onTextColor }}" value="#edf6ff" style="position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);opacity:0;cursor:pointer;border:none;padding:0" /></label><label title="Highlight color" style="width:34px;height:30px;position:relative;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:7px;cursor:pointer;overflow:hidden"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--text);pointer-events:none;border-bottom:3px solid #fff59d">HL</span><input type="color" title="Highlight color" onChange="{{ onHighlightColor }}" value="#fff59d" style="position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);opacity:0;cursor:pointer;border:none;padding:0" /></label>
+            <button onClick="{{ formatBullets }}" title="Bulleted list" style="height:30px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">List</button>
+            <button onClick="{{ formatLink }}" title="Link" style="height:30px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Link</button>
+            <button onClick="{{ formatClear }}" title="Clear formatting" style="height:30px;padding:0 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer">Clear</button>
+          </div>
+          <div ref="{{ composeEditorRef }}" contenteditable="true" onInput="{{ onComposeEditorInput }}" style="min-height:260px;width:100%;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:16px;line-height:1.7;outline:none;overflow:auto"></div>
+        </section>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Images (choose files or paste one URL per line)</span><input type="file" accept="image/*" multiple onChange="{{ onComposeImageFiles }}" style="width:100%;padding:10px 13px;background:var(--surface);border:1px dashed var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px" /><textarea value="{{ compose.images }}" onChange="{{ onComposeImages }}" placeholder="https://example.com/image.jpg" rows="2" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;resize:vertical"></textarea></label>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Videos (choose files or paste one URL per line)</span><input type="file" accept="video/*" multiple onChange="{{ onComposeVideoFiles }}" style="width:100%;padding:10px 13px;background:var(--surface);border:1px dashed var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px" /><textarea value="{{ compose.videos }}" onChange="{{ onComposeVideos }}" placeholder="https://example.com/video.mp4" rows="2" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;resize:vertical"></textarea></label>
+        <label style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-dim)">Audio (choose files or paste one URL per line)</span><input type="file" accept="audio/*" multiple onChange="{{ onComposeAudioFiles }}" style="width:100%;padding:10px 13px;background:var(--surface);border:1px dashed var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px" /><textarea value="{{ compose.audios }}" onChange="{{ onComposeAudios }}" placeholder="https://example.com/audio.mp3" rows="2" style="width:100%;padding:10px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;outline:none;resize:vertical"></textarea></label>
       </div>
       <div style="display:flex;gap:10px;margin-top:22px">
-        <button onClick="{{ publish }}" style="padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Publish →</button>
+        <button onClick="{{ publish }}" style="padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">{{ publishLabel }}</button>
         <button onClick="{{ goHome }}" style="padding:12px 20px;background:transparent;border:1px solid var(--border);color:var(--text-dim);border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;cursor:pointer">Cancel</button>
       </div>
+      <sc-if value="{{ hasPublishError }}" hint-placeholder-val="{{ false }}"><p style="margin:14px 0 0;color:#ff6b6b;font-family:'IBM Plex Mono',monospace;font-size:13px">{{ publishError }}</p></sc-if>
     </main>
   </sc-if>
 
@@ -360,15 +511,18 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1463ff&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#1463ff&quot;,&quot;#0b84d8&quot;,&quot;#2f6fed&quot;,&quot;#1f4fbf&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;defaultTheme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dark&quot;,&quot;options&quot;:[&quot;dark&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;monoHeadings&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
 class Component extends DCLogic {
   state = {
-    page: 'home', authed: true, theme: 'dark',
-    query: '', activeTag: null, selectedPostId: null, commentDraft: '',
-    settingsSaved: false,
+    page: 'login', authed: false, theme: 'dark',
+    query: '', activeTag: null, selectedPostId: null, selectedFriendHandle: null, selectedChatHandle: null, commentDraft: '', friendDraft: '', chatDraft: '', friendMessage: '',
+    settingsSaved: false, publishing: false, publishError: '', authMessage: '', authMessageType: '', accounts: [],
     user: { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12',
       bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' },
-    loginForm: { email: '', password: '' },
+    loginForm: { email: '', password: '', remember: true },
     regForm: { name: '', handle: '', email: '', password: '' },
-    compose: { title: '', tags: '', body: '' },
+    compose: { title: '', tags: '', body: '', bodyHtml: '', banner: '', images: '', videos: '', audios: '' },
     settingsForm: { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12', bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' },
+    friends: [],
+    pendingFriendRequests: [],
+    chats: {},
     posts: [
       { id: 'me1', title: 'Mechanical engineering: designing parts that survive real loads', author: 'Nora Kim', authorHandle: 'nora',
         date: 'Jul 8, 2026', readTime: '5 min read', tags: ['mechanical engineering', 'design', 'materials'], likes: 74, liked: false,
@@ -549,13 +703,44 @@ class Component extends DCLogic {
   componentDidMount() {
     const t = 'dark';
     if (this.props.monoHeadings && this.rootEl) this.rootEl.style.setProperty('--head-font', "'IBM Plex Mono',monospace");
-    this.setState({ theme: t }, () => this.applyTheme(t));
+    const accounts = this.loadAccounts();
+    const sessionHandle = this.loadSessionHandle();
+    const sessionAccount = sessionHandle ? accounts.find(a => a.handle === sessionHandle) : null;
+    const nextState = { theme: t, accounts };
+    if (sessionAccount) {
+      const u = { name: sessionAccount.name, handle: sessionAccount.handle, email: sessionAccount.email, country: sessionAccount.country || this.countryForHandle(sessionAccount.handle), avatarUrl: sessionAccount.avatarUrl, bio: sessionAccount.bio };
+      nextState.user = u;
+      nextState.authed = true;
+      nextState.page = 'home';
+      nextState.settingsForm = { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio };
+    }
+    this.setState(nextState, () => this.applyTheme(t));
   }
 
   seedUser() {
-    return { name: 'Alex Rivera', handle: 'alex', email: 'alex@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=12',
-      bio: 'Backend engineer. I write about systems, databases, and the occasional system design detour.' };
+    return { name: '', handle: '', email: '', avatarUrl: this.authorAvatar('new-user'), bio: '' };
   }
+  loadAccounts() {
+    if (typeof localStorage === 'undefined') return [];
+    try { return JSON.parse(localStorage.getItem('buildStackAccounts') || '[]'); } catch (e) { return []; }
+  }
+  loadSessionHandle() {
+    if (typeof localStorage === 'undefined') return '';
+    try { return localStorage.getItem('buildStackSession') || ''; } catch (e) { return ''; }
+  }
+  saveAccounts(accounts) {
+    if (typeof localStorage !== 'undefined') localStorage.setItem('buildStackAccounts', JSON.stringify(accounts));
+  }
+  saveSessionHandle(handle) {
+    if (typeof localStorage !== 'undefined') {
+      if (handle) localStorage.setItem('buildStackSession', handle);
+      else localStorage.removeItem('buildStackSession');
+    }
+  }
+  normalizeHandle(value) {
+    return String(value || '').trim().toLowerCase().replace(/^@/, '').replace(/[^a-z0-9_-]/g, '');
+  }
+  setAuthMessage(text, type) { this.setState({ authMessage: text, authMessageType: type || 'error' }); }
   initialsOf(name) {
     return (name || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
   }
@@ -563,17 +748,33 @@ class Component extends DCLogic {
 
   // auth
   doLogin = () => {
-    const u = this.seedUser();
-    this.setState({ user: u, authed: true, page: 'home', settingsForm: { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio } });
+    const handle = this.normalizeHandle(this.state.loginForm.email);
+    const password = this.state.loginForm.password;
+    if (!handle || !password) { this.setAuthMessage('Enter your username and password.', 'error'); return; }
+    const accounts = this.state.accounts.length ? this.state.accounts : this.loadAccounts();
+    const account = accounts.find(a => a.handle === handle && a.password === password);
+    if (!account) { this.setAuthMessage('No account matches that username and password.', 'error'); return; }
+    const u = { name: account.name, handle: account.handle, email: account.email, country: account.country || this.countryForHandle(account.handle), avatarUrl: account.avatarUrl, bio: account.bio };
+    this.saveSessionHandle(this.state.loginForm.remember ? u.handle : '');
+    this.setState({ user: u, authed: true, page: 'home', authMessage: '', authMessageType: '', loginForm: { email: '', password: '', remember: true }, settingsForm: { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio } });
     if (window && window.scrollTo) window.scrollTo(0, 0);
   };
   doRegister = () => {
     const f = this.state.regForm;
-    const u = { name: f.name || 'New Writer', handle: f.handle || 'writer', email: f.email || 'you@buildstack.dev', avatarUrl: 'https://i.pravatar.cc/160?img=33', bio: 'Just joined Build Stack Journal.' };
-    this.setState({ user: u, authed: true, page: 'home', settingsForm: { name: u.name, handle: u.handle, email: u.email, avatarUrl: u.avatarUrl, bio: u.bio } });
+    const handle = this.normalizeHandle(f.handle);
+    const password = f.password.trim();
+    const name = f.name.trim();
+    if (!name || !handle || !password) { this.setAuthMessage('Name, unique username, and password are required.', 'error'); return; }
+    if (password.length < 4) { this.setAuthMessage('Password must be at least 4 characters.', 'error'); return; }
+    const accounts = this.state.accounts.length ? this.state.accounts : this.loadAccounts();
+    if (accounts.some(a => a.handle === handle)) { this.setAuthMessage('That username is already taken.', 'error'); return; }
+    const account = { name, handle, password, email: f.email.trim() || handle + '@buildstack.local', avatarUrl: 'https://i.pravatar.cc/160?u=' + encodeURIComponent(handle), bio: 'Just joined Build Stack Journal.' };
+    const next = [...accounts, account];
+    this.saveAccounts(next);
+    this.setState({ accounts: next, page: 'login', regForm: { name: '', handle: '', email: '', password: '' }, loginForm: { email: handle, password: '', remember: true }, authMessage: 'Account created. Sign in with your new password.', authMessageType: 'success' });
     if (window && window.scrollTo) window.scrollTo(0, 0);
   };
-  doLogout = () => this.setState({ authed: false, page: 'login', loginForm: { email: '', password: '' } });
+  doLogout = () => { this.saveSessionHandle(''); this.setState({ authed: false, page: 'login', user: this.seedUser(), loginForm: { email: '', password: '', remember: true }, authMessage: '', authMessageType: '' }); };
 
   // field setters
   setField = (form, key) => (e) => { const v = e.target.value; this.setState(s => ({ [form]: { ...s[form], [key]: v } })); };
@@ -591,22 +792,170 @@ class Component extends DCLogic {
     const c = { author: u.name, initials: this.initialsOf(u.name), time: 'just now', text };
     this.setState(s => ({ posts: s.posts.map(p => p.id === id ? { ...p, comments: [...p.comments, c] } : p), commentDraft: '' }));
   };
-  publish = () => {
+  addFriend = () => {
+    const raw = this.state.friendDraft.trim().replace(/^@/, '');
+    if (!raw) return;
+    const handle = this.normalizeHandle(raw) || 'friend';
+    if (this.state.user && handle === this.state.user.handle) { this.setState({ friendMessage: 'You cannot add yourself as a friend.', friendDraft: '' }); return; }
+    const name = raw.split(/[-_\s]+/).filter(Boolean).map(part => part[0].toUpperCase() + part.slice(1)).join(' ') || handle;
+    const friend = { name, handle, country: 'United States', role: 'Engineering friend added from your network.', focus: 'Engineering', avatar: this.authorAvatar(handle) };
+    this.setState(s => ({ friends: s.friends.some(f => f.handle === handle) ? s.friends : [friend, ...s.friends], friendDraft: '', friendMessage: s.friends.some(f => f.handle === handle) ? 'That person is already in your friends list.' : 'Friend added.' }));
+  };
+  openFriend(handle) { this.setState({ page: 'friendProfile', selectedFriendHandle: handle, friendMessage: '' }); if (window && window.scrollTo) window.scrollTo(0, 0); }
+  openAuthor(handle) {
+    if (!handle) return;
+    if (this.state.user && handle === this.state.user.handle) { this.go('profile'); return; }
+    this.openFriend(handle);
+  }
+  profileForHandle(handle) {
+    const posts = this.state.posts.filter(p => p.authorHandle === handle);
+    const first = posts[0];
+    const name = first ? first.author : handle;
+    const tag = first && first.tags && first.tags[0] ? first.tags[0] : 'Engineering';
+    return { name, handle, country: this.countryForHandle(handle), role: 'Blogger writing about ' + tag + ' on Build Stack Journal.', focus: tag, avatar: this.authorAvatar(handle) };
+  }
+  requestFriend(handle) {
+    handle = this.normalizeHandle(handle);
+    if (!handle) return;
+    if (this.state.user && handle === this.state.user.handle) { this.setState({ friendMessage: 'You cannot add yourself as a friend.' }); return; }
+    const profile = this.profileForHandle(handle);
+    this.setState(s => {
+      if (s.friends.some(f => f.handle === handle) || s.pendingFriendRequests.some(f => f.handle === handle)) return s;
+      return { pendingFriendRequests: [profile, ...s.pendingFriendRequests], friendMessage: 'Friend request sent.' };
+    });
+  }
+  acceptFriendRequest(handle) {
+    this.setState(s => {
+      if (s.user && handle === s.user.handle) return { pendingFriendRequests: s.pendingFriendRequests.filter(f => f.handle !== handle), friendMessage: 'You cannot add yourself as a friend.' };
+      const request = s.pendingFriendRequests.find(f => f.handle === handle);
+      if (!request || s.friends.some(f => f.handle === handle)) return { pendingFriendRequests: s.pendingFriendRequests.filter(f => f.handle !== handle) };
+      return { friends: [request, ...s.friends], pendingFriendRequests: s.pendingFriendRequests.filter(f => f.handle !== handle), friendMessage: 'Friend request accepted.' };
+    });
+  }
+  openChat(handle) { this.setState({ page: 'chat', selectedChatHandle: handle, chatDraft: '' }); if (window && window.scrollTo) window.scrollTo(0, 0); }
+  sendChat = () => {
+    const text = this.state.chatDraft.trim();
+    const handle = this.state.selectedChatHandle;
+    if (!text || !handle) return;
+    const msg = { from: 'me', text, time: 'now' };
+    this.setState(s => ({ chats: { ...s.chats, [handle]: [...(s.chats[handle] || []), msg] }, chatDraft: '' }));
+  };
+  bindComposeEditor = (el) => {
+    this.composeEditor = el;
+    if (el && el.innerHTML !== this.state.compose.bodyHtml) el.innerHTML = this.state.compose.bodyHtml || '';
+  };
+  updateComposeBody = () => {
+    const html = this.sanitizeBodyHtml(this.composeEditor ? this.composeEditor.innerHTML : '');
+    this.setState(s => ({ compose: { ...s.compose, bodyHtml: html, body: this.htmlToText(html) } }));
+  };
+  formatEditor(command, value) {
+    if (!this.composeEditor || typeof document === 'undefined') return;
+    this.composeEditor.focus();
+    document.execCommand(command, false, value || null);
+    this.updateComposeBody();
+  }
+  formatBlock(tag) { this.formatEditor('formatBlock', tag); }
+  formatHighlight = (color) => this.formatEditor('hiliteColor', color || '#fff59d');
+  formatTextColor = (color) => this.formatEditor('foreColor', color || '#edf6ff');
+  createLink = () => {
+    const url = typeof prompt === 'function' ? prompt('Paste a link URL') : '';
+    if (url) this.formatEditor('createLink', url);
+  };
+  sanitizeBodyHtml(html) {
+    const clean = String(html || '').replace(/<script[\s\S]*?<\/script>/gi, '').replace(/\son\w+="[^"]*"/gi, '').replace(/\son\w+='[^']*'/gi, '');
+    return clean.trim();
+  }
+  htmlToText(html) {
+    if (typeof document === 'undefined') return String(html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const div = document.createElement('div');
+    div.innerHTML = this.sanitizeBodyHtml(html);
+    return (div.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  escapeHtml(text) {
+    return String(text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  paragraphsToHtml(body) {
+    return (body || []).map(p => '<p style="margin:0 0 20px">' + this.escapeHtml(p) + '</p>').join('');
+  }
+  appendMediaFiles = (key) => (e) => {
+    const files = Array.from((e.target && e.target.files) || []);
+    if (!files.length || typeof FileReader === 'undefined') return;
+    Promise.all(files.map(file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    }))).then(urls => {
+      this.setState(s => ({ compose: { ...s.compose, [key]: [s.compose[key], ...urls].filter(Boolean).join('\n') } }));
+      if (e.target) e.target.value = '';
+    });
+  };
+  parseMediaList(value) {
+    return String(value || '').split(/\n+/).map(x => x.trim()).filter(Boolean);
+  }
+  isVideoUrl(url) {
+    return /\.(mp4|webm|ogg|mov|m4v)(\?|#|$)/i.test(String(url || ''));
+  }
+  setBannerFile = (e) => {
+    const file = e.target && e.target.files && e.target.files[0];
+    if (!file || typeof FileReader === 'undefined') return;
+    const reader = new FileReader();
+    reader.onload = () => { this.setState(s => ({ compose: { ...s.compose, banner: reader.result } })); if (e.target) e.target.value = ''; };
+    reader.readAsDataURL(file);
+  };
+  publish = async () => {
+    if (this.state.publishing) return;
     const c = this.state.compose;
-    if (!c.title.trim() && !c.body.trim()) return;
+    const images = this.parseMediaList(c.images);
+    const videos = this.parseMediaList(c.videos);
+    const audios = this.parseMediaList(c.audios);
+    const bodyHtml = this.sanitizeBodyHtml(c.bodyHtml || (this.composeEditor ? this.composeEditor.innerHTML : ''));
+    const bodyText = this.htmlToText(bodyHtml) || c.body.trim();
+    if (!c.title.trim() && !bodyText && !images.length && !videos.length && !audios.length && !c.banner.trim()) {
+      this.setState({ publishError: 'Add a title, some text, or media first.' });
+      return;
+    }
     const u = this.state.user;
-    const paras = c.body.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
-    const words = c.body.trim().split(/\s+/).filter(Boolean).length;
+    const paras = bodyText.split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+    const words = bodyText.split(/\s+/).filter(Boolean).length;
     const rt = Math.max(1, Math.round(words / 200));
     const tags = c.tags.split(',').map(t => t.trim().replace(/^#/, '')).filter(Boolean);
-    const post = {
-      id: 'u' + Date.now(), title: c.title.trim() || 'Untitled', author: u.name, authorHandle: u.handle,
-      date: 'Jul 9, 2026', readTime: rt + ' min read', tags, likes: 0, liked: false, coverImage: this.coverForTags(tags),
-      excerpt: (paras[0] || '').slice(0, 150) + ((paras[0] || '').length > 150 ? '…' : ''),
-      body: paras.length ? paras : ['(no content)'], comments: []
+    const payload = {
+      title: c.title.trim(), body: bodyText, bodyHtml, banner: c.banner.trim(),
+      images, videos, audios, tags, readTime: rt + ' min read',
+      excerpt: bodyText.slice(0, 150), author: u.name, authorHandle: u.handle
     };
-    this.setState(s => ({ posts: [post, ...s.posts], compose: { title: '', tags: '', body: '' } }), () => this.openPost(post.id));
+    this.setState({ publishing: true, publishError: '' });
+    try {
+      const res = await fetch('/api/posts', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error('Publish failed');
+      const data = await res.json();
+      const post = data.post;
+      this.setState(s => ({ posts: post ? [post, ...s.posts] : s.posts, compose: { title: '', tags: '', body: '', bodyHtml: '', banner: '', images: '', videos: '', audios: '' }, publishing: false, publishError: '', query: '', activeTag: null, page: 'home' }), () => { if (this.composeEditor) this.composeEditor.innerHTML = ''; if (window && window.scrollTo) window.scrollTo(0, 0); });
+    } catch (err) {
+      this.setState({ publishing: false, publishError: 'Could not publish. Make sure the server is running and try again.' });
+    }
   };
+  deletePost = async (id) => {
+    try {
+      const res = await fetch('/api/posts/' + encodeURIComponent(id), { method: 'DELETE' });
+      if (!res.ok && res.status !== 404) throw new Error('Delete failed');
+    } catch (err) { /* remove locally even if the server is unreachable */ }
+    this.setState(s => ({ posts: s.posts.filter(p => p.id !== id), page: 'home', selectedPostId: null }), () => { if (window && window.scrollTo) window.scrollTo(0, 0); });
+  };
+  async loadPosts() {
+    let incoming = [];
+    try {
+      const res = await fetch('/api/posts');
+      if (res.ok) incoming = (await res.json()).posts || [];
+    } catch (err) { return; }
+    this.setState(s => {
+      const existing = new Set(s.posts.map(p => p.id));
+      const fresh = incoming.filter(p => p && p.id && !existing.has(p.id));
+      return fresh.length ? { posts: [...fresh, ...s.posts] } : {};
+    });
+  }
+  componentDidMount() { this.loadPosts(); }
   saveSettings = () => {
     const f = this.state.settingsForm;
     this.setState(s => ({ user: { ...s.user, name: f.name, handle: f.handle, email: f.email, avatarUrl: f.avatarUrl, bio: f.bio }, settingsSaved: true }));
@@ -628,6 +977,23 @@ class Component extends DCLogic {
     };
     return avatars[handle] || 'https://i.pravatar.cc/160?u=' + encodeURIComponent(handle || 'blue-harbor');
   }
+  countryForHandle(handle) {
+    const countries = {
+      alex: 'United States',
+      nora: 'Canada',
+      maya: 'India',
+      ethan: 'Japan',
+      samir: 'United Kingdom',
+      iris: 'Germany',
+      leah: 'Singapore',
+      owen: 'Australia',
+      priya: 'India',
+      dana: 'Nigeria',
+      lena: 'Netherlands',
+      marcus: 'Sweden'
+    };
+    return countries[handle] || 'United States';
+  }
   coverForTags(tags) {
     const key = (tags && tags[0]) || 'writing';
     const covers = {
@@ -648,7 +1014,14 @@ class Component extends DCLogic {
     return covers[key] || covers.writing;
   }
   enrich(p) {
-    return { ...p, coverImage: p.coverImage || this.coverForTags(p.tags), avatarUrl: p.avatarUrl || this.authorAvatar(p.authorHandle), likeGlyph: p.liked ? '♥' : '♡', commentGlyph: '💬'.length ? '❝' : '❝', commentCount: p.comments.length,
+    const rawVideos = p.videos || [];
+    const banner = (p.banner && String(p.banner).trim()) || '';
+    const bannerIsVideo = this.isVideoUrl(banner);
+    const coverVideo = bannerIsVideo ? banner : null;
+    const hasCoverVideo = !!coverVideo;
+    const coverImage = hasCoverVideo ? '' : (banner || p.coverImage || this.coverForTags(p.tags));
+    const bodyHtml = p.bodyHtml || this.paragraphsToHtml(p.body || []);
+    return { ...p, bodyHtml, hasBodyHtml: !!bodyHtml, noBodyHtml: !bodyHtml, bodyRef: (el) => { if (el && el.innerHTML !== bodyHtml) el.innerHTML = bodyHtml; }, images: p.images || [], coverVideo, hasCoverVideo: !!coverVideo, hasCoverImage: !coverVideo, videos: rawVideos.map(src => ({ src, ref: (el) => { if (el) { el.muted = true; const play = el.play && el.play(); if (play && play.catch) play.catch(() => {}); } }, togglePause: (e) => { const video = e && e.target && e.target.parentElement && e.target.parentElement.previousElementSibling; if (!video) return; if (video.paused) video.play(); else video.pause(); }, rewind: (e) => { const video = e && e.target && e.target.parentElement && e.target.parentElement.previousElementSibling; if (!video) return; video.currentTime = 0; video.play(); } })), audios: p.audios || [], hasMedia: !!((p.images && p.images.length) || (p.videos && p.videos.length) || (p.audios && p.audios.length)), coverImage, avatarUrl: p.avatarUrl || this.authorAvatar(p.authorHandle), authorCountry: p.authorCountry || this.countryForHandle(p.authorHandle), likeGlyph: p.liked ? '♥' : '♡', commentGlyph: '💬'.length ? '❝' : '❝', commentCount: p.comments.length,
       hasComments: p.comments.length > 0, noComments: p.comments.length === 0, authorInitials: this.initialsOf(p.author) };
   }
   renderVals() {
@@ -678,13 +1051,14 @@ class Component extends DCLogic {
       const e = this.enrich(p);
       e.open = () => this.openPost(p.id);
       e.like = () => this.toggleLike(p.id);
+      e.openAuthor = () => this.openAuthor(p.authorHandle);
       e.likeColor = p.liked ? acc : dim;
       return e;
     });
 
     // selected post
     const sp = s.posts.find(p => p.id === s.selectedPostId);
-    const selectedPost = sp ? this.enrich(sp) : { tags: [], body: [], comments: [], title: '', author: '', date: '', readTime: '', likes: 0, coverImage: this.coverForTags([]), avatarUrl: this.authorAvatar('alex'), likeGlyph: '♡', commentGlyph: '❝', commentCount: 0, authorInitials: '', hasComments: false, noComments: true };
+    const selectedPost = sp ? this.enrich(sp) : { tags: [], body: [], comments: [], title: '', author: '', date: '', readTime: '', likes: 0, images: [], videos: [], audios: [], hasMedia: false, coverVideo: null, hasCoverVideo: false, hasCoverImage: true, coverImage: this.coverForTags([]), avatarUrl: this.authorAvatar('alex'), likeGlyph: '♡', commentGlyph: '❝', commentCount: 0, authorInitials: '', hasComments: false, noComments: true };
 
     // authored
     const authored = s.user ? s.posts.filter(p => p.authorHandle === s.user.handle) : [];
@@ -700,19 +1074,37 @@ class Component extends DCLogic {
       { title: 'Query Plan Inspector', stack: 'Go / SQL / WASM', summary: 'A browser tool that turns database explain plans into readable bottleneck reports for app engineers.', metric: '18 slow paths removed', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80' },
       { title: 'CI Signal Dashboard', stack: 'React / Workers / SQLite', summary: 'A build health surface that groups flaky failures, ownership, and recovery trends for large test suites.', metric: '31% fewer reruns', image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=80' }
     ];
-    const friends = [
-      { name: 'Priya Nair', handle: 'priya', role: 'Reliability engineer focused on CI systems and test infrastructure.', avatar: this.authorAvatar('priya') },
-      { name: 'Dana Osei', handle: 'dana', role: 'Backend engineer building schedulers, queues, and Rust services.', avatar: this.authorAvatar('dana') },
-      { name: 'Lena Vogt', handle: 'lena', role: 'Product-minded engineer writing about scope, teams, and delivery.', avatar: this.authorAvatar('lena') },
-      { name: 'Marcus Feld', handle: 'marcus', role: 'Database specialist who helps teams make query latency boring.', avatar: this.authorAvatar('marcus') }
+    const baseFriends = [
+      { name: 'Priya Nair', handle: 'priya', country: 'India', role: 'Reliability engineer focused on CI systems and test infrastructure.', focus: 'Reliability', avatar: this.authorAvatar('priya') },
+      { name: 'Dana Osei', handle: 'dana', country: 'Nigeria', role: 'Backend engineer building schedulers, queues, and Rust services.', focus: 'Backend systems', avatar: this.authorAvatar('dana') },
+      { name: 'Lena Vogt', handle: 'lena', country: 'Netherlands', role: 'Product-minded engineer writing about scope, teams, and delivery.', focus: 'Product engineering', avatar: this.authorAvatar('lena') },
+      { name: 'Marcus Feld', handle: 'marcus', country: 'Sweden', role: 'Database specialist who helps teams make query latency boring.', focus: 'Databases', avatar: this.authorAvatar('marcus') }
     ];
+    const friends = baseFriends.concat(s.friends).filter(f => !(s.user && f.handle === s.user.handle)).map(f => ({ ...f, open: () => this.openFriend(f.handle), chat: () => this.openChat(f.handle) }));
+    const authorProfiles = [];
+    s.posts.forEach(p => {
+      if (!p.authorHandle || authorProfiles.some(a => a.handle === p.authorHandle) || friends.some(f => f.handle === p.authorHandle)) return;
+      const focus = p.tags && p.tags[0] ? p.tags[0] : 'Engineering';
+      authorProfiles.push({ name: p.author, handle: p.authorHandle, country: this.countryForHandle(p.authorHandle), role: 'Blogger writing about ' + focus + ' on Build Stack Journal.', focus, avatar: p.avatarUrl || this.authorAvatar(p.authorHandle), open: () => this.openFriend(p.authorHandle) });
+    });
+    const people = friends.concat(authorProfiles);
+    const selectedFriend = people.find(f => f.handle === s.selectedFriendHandle) || friends[0] || authorProfiles[0] || { name: '', handle: '', country: 'United States', role: '', focus: '', avatar: this.authorAvatar('friend') }; 
+    const selectedFriendRawPosts = selectedFriend.handle ? s.posts.filter(p => p.authorHandle === selectedFriend.handle) : [];
+    const selectedFriendPosts = selectedFriendRawPosts.map(p => { const e = this.enrich(p); e.open = () => this.openPost(p.id); return e; });
+    const selectedFriendAlreadyAdded = !!selectedFriend.handle && friends.some(f => f.handle === selectedFriend.handle);
+    const selectedFriendPending = !!selectedFriend.handle && s.pendingFriendRequests.some(f => f.handle === selectedFriend.handle);
+    const selectedFriendIsSelf = !!(s.user && selectedFriend.handle === s.user.handle);
+    const canRequestSelectedFriend = !!selectedFriend.handle && !selectedFriendAlreadyAdded && !selectedFriendPending && !selectedFriendIsSelf;
+    const pendingFriendRequests = s.pendingFriendRequests.map(f => ({ ...f, accept: () => this.acceptFriendRequest(f.handle) }));
+    const selectedChatFriend = friends.find(f => f.handle === s.selectedChatHandle) || { name: '', handle: '', country: 'United States', avatar: this.authorAvatar('friend') }; 
+    const selectedChatMessages = (s.chats[s.selectedChatHandle] || []).map(m => ({ ...m, author: m.from === 'me' ? 'You' : selectedChatFriend.name, align: m.from === 'me' ? 'flex-end' : 'flex-start', bg: m.from === 'me' ? 'var(--accent-weak)' : 'var(--surface)' }));
 
 
     return {
       // routing flags
       authed: s.authed,
       isLogin: s.page === 'login', isRegister: s.page === 'register', isHome: s.page === 'home',
-      isPost: s.page === 'post', isProfile: s.page === 'profile', isPortfolio: s.page === 'portfolio', isFriends: s.page === 'friends', isCompose: s.page === 'compose', isSettings: s.page === 'settings',
+      isPost: s.page === 'post', isProfile: s.page === 'profile', isPortfolio: s.page === 'portfolio', isFriends: s.page === 'friends', isFriendProfile: s.page === 'friendProfile', isChat: s.page === 'chat', isCompose: s.page === 'compose', isSettings: s.page === 'settings',
       // nav
       rootRef: (el) => { this.rootEl = el; },
       goHome: () => this.go('home'), goCompose: () => this.go('compose'), goPortfolio: () => this.go('portfolio'), goFriends: () => this.go('friends'), goProfile: () => this.go('profile'),
@@ -726,7 +1118,7 @@ class Component extends DCLogic {
       darkBtnBg: s.theme === 'dark' ? 'var(--surface)' : 'transparent',
       darkBtnColor: s.theme === 'dark' ? 'var(--text)' : dim,
       // user
-      user: s.user || this.seedUser(),
+      user: s.user || this.seedUser(), userCountry: (s.user && s.user.country) || this.countryForHandle(s.user ? s.user.handle : 'alex'), authMessage: s.authMessage, authMessageColor: s.authMessageType === 'success' ? 'var(--accent)' : '#ff8f8f',
       userInitials: this.initialsOf(s.user ? s.user.name : ''),
       userAvatarUrl: (s.user && s.user.avatarUrl) || this.authorAvatar(s.user ? s.user.handle : 'alex'),
       authoredCount: authored.length, likesReceived,
@@ -734,22 +1126,24 @@ class Component extends DCLogic {
       authoredPosts,
       // forms
       loginForm: s.loginForm, regForm: s.regForm, compose: s.compose, settingsForm: s.settingsForm,
-      onLoginEmail: this.setField('loginForm', 'email'), onLoginPassword: this.setField('loginForm', 'password'),
+      onLoginEmail: this.setField('loginForm', 'email'), onLoginPassword: this.setField('loginForm', 'password'), onLoginRemember: (e) => this.setState(s2 => ({ loginForm: { ...s2.loginForm, remember: !!e.target.checked } })),
       onRegName: this.setField('regForm', 'name'), onRegHandle: this.setField('regForm', 'handle'),
       onRegEmail: this.setField('regForm', 'email'), onRegPassword: this.setField('regForm', 'password'),
-      onComposeTitle: this.setField('compose', 'title'), onComposeTags: this.setField('compose', 'tags'), onComposeBody: this.setField('compose', 'body'),
+      onComposeTitle: this.setField('compose', 'title'), onComposeTags: this.setField('compose', 'tags'), onComposeBody: this.setField('compose', 'body'), composeEditorRef: this.bindComposeEditor, onComposeEditorInput: this.updateComposeBody, formatBold: () => this.formatEditor('bold'), formatItalic: () => this.formatEditor('italic'), formatUnderline: () => this.formatEditor('underline'), formatHeading: () => this.formatBlock('h2'), formatQuote: () => this.formatBlock('blockquote'), onTextColor: (e) => this.formatTextColor(e.target.value), onHighlightColor: (e) => this.formatHighlight(e.target.value), formatBullets: () => this.formatEditor('insertUnorderedList'), formatLink: this.createLink, formatClear: () => this.formatEditor('removeFormat'),
+      onComposeImages: this.setField('compose', 'images'), onComposeVideos: this.setField('compose', 'videos'), onComposeAudios: this.setField('compose', 'audios'), onComposeBanner: this.setField('compose', 'banner'), onComposeBannerFiles: this.setBannerFile,
+      onComposeImageFiles: this.appendMediaFiles('images'), onComposeVideoFiles: this.appendMediaFiles('videos'), onComposeAudioFiles: this.appendMediaFiles('audios'),
       onSetName: this.setField('settingsForm', 'name'), onSetHandle: this.setField('settingsForm', 'handle'),
       onSetEmail: this.setField('settingsForm', 'email'), onSetAvatar: this.setField('settingsForm', 'avatarUrl'), onSetBio: this.setField('settingsForm', 'bio'),
-      publish: this.publish, saveSettings: this.saveSettings, settingsSaved: s.settingsSaved,
+      publish: this.publish, publishLabel: s.publishing ? 'Publishing…' : 'Publish →', publishing: s.publishing, publishError: s.publishError, hasPublishError: !!s.publishError, saveSettings: this.saveSettings, settingsSaved: s.settingsSaved,
       // feed
       query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
-      ads, portfolioItems, portfolioCount: portfolioItems.length, friends, friendCount: friends.length, engineeringTypes,
+      ads, portfolioItems, portfolioCount: portfolioItems.length, friends, friendCount: friends.length, pendingFriendRequests, hasPendingFriendRequests: pendingFriendRequests.length > 0, friendDraft: s.friendDraft, onFriendDraft: (e) => this.setState({ friendDraft: e.target.value }), addFriend: this.addFriend, friendMessage: s.friendMessage, friendMessageColor: s.friendMessage.indexOf('cannot') >= 0 || s.friendMessage.indexOf('already') >= 0 ? '#ff8f8f' : 'var(--accent)', selectedFriend, selectedFriendAlreadyAdded, selectedFriendPending, canRequestSelectedFriend, requestSelectedFriend: () => this.requestFriend(selectedFriend.handle), openSelectedFriendChat: () => this.openChat(selectedFriend.handle), selectedFriendPosts, selectedFriendPostCount: selectedFriendPosts.length, hasSelectedFriendPosts: selectedFriendPosts.length > 0, noSelectedFriendPosts: selectedFriendPosts.length === 0, engineeringTypes,
       tagChips, filteredPosts, resultCount: filteredPosts.length,
       hasResults: filteredPosts.length > 0, noResults: filteredPosts.length === 0,
       // detail
-      selectedPost,
+      selectedPost, selectedChatFriend, selectedChatMessages, hasChatMessages: selectedChatMessages.length > 0, noChatMessages: selectedChatMessages.length === 0, chatDraft: s.chatDraft, onChatDraft: (e) => this.setState({ chatDraft: e.target.value }), sendChat: this.sendChat,
       commentDraft: s.commentDraft, onCommentDraft: (e) => this.setState({ commentDraft: e.target.value }),
-      addComment: this.addComment, likeSelected: () => sp && this.toggleLike(sp.id),
+      addComment: this.addComment, likeSelected: () => sp && this.toggleLike(sp.id), canDelete: !!(sp && s.user && sp.authorHandle === s.user.handle), deleteSelected: () => { if (!sp) return; const label = sp.title || 'this post'; if (typeof window !== 'undefined' && !window.confirm('Take down "' + label + '"? It will be removed from your blog.')) return; this.deletePost(sp.id); },
       selLikeBg: sp && sp.liked ? 'var(--accent-weak)' : 'transparent',
       selLikeBorder: sp && sp.liked ? 'var(--accent)' : 'var(--border)',
       selLikeColor: sp && sp.liked ? acc : 'var(--text)'
