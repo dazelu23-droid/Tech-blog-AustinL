@@ -97,7 +97,7 @@
 
   <!-- ===================== HOME ===================== -->
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
-    <main style="max-width:720px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
+    <main style="max-width:1200px;margin:0 auto;padding:44px 24px 80px;animation:fadeUp .3s ease both">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px">
         <h1 style="font-family:var(--head-font);font-size:30px;font-weight:600;margin:0;letter-spacing:-0.025em">Build Stack Journal</h1>
         <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim)">{{ resultCount }} posts</span>
@@ -128,9 +128,9 @@
       </section>
 
       <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
-        <div style="display:flex;flex-direction:column">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
           <sc-for list="{{ filteredPosts }}" as="item" hint-placeholder-count="4">
-            <article style="padding:24px 0;border-top:1px solid var(--border)">
+            <article style="padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px">
               <sc-if value="{{ item.hasCoverVideo }}" hint-placeholder-val="{{ false }}">
                 <video onClick="{{ item.open }}" src="{{ item.coverVideo }}" autoplay muted loop playsinline controls style="width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:8px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:block;background:#000"></video>
               </sc-if>
@@ -744,7 +744,7 @@ class Component extends DCLogic {
   initialsOf(name) {
     return (name || '?').trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
   }
-  go(page) { this.setState({ page }); if (window && window.scrollTo) window.scrollTo(0, 0); }
+  go(page) { const update = { page }; if (page === 'home') { update.query = ''; update.activeTag = null; } this.setState(update); if (window && window.scrollTo) window.scrollTo(0, 0); }
 
   // auth
   doLogin = () => {

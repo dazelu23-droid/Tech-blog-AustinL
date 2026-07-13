@@ -5,8 +5,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "deploy": "wrangler deploy",
+    "db:seed": "wrangler d1 execute blog-db --remote --file=seed.sql -y"
   },
-  "keywords": ["blog", "engineering", "node"],
-  "license": "MIT"
+  "keywords": [
+    "blog",
+    "engineering",
+    "node"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^4.110.0"
+  }
 }
